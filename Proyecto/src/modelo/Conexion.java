@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 
 
 
@@ -17,14 +19,16 @@ public class Conexion {
 
 	public Connection conexion(){
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("org.postgresql.Driver");
 			try {
-				conex = DriverManager.getConnection("jdbc:mysql://localhost/tienda","root","M2101arm");
+				conex = DriverManager.getConnection("jdbc:postgresql://localhost:5432/tienda","postgres","postgres");
 			} catch (SQLException e) {
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, e, "Error2 en la Conexión con la BD "+e.getMessage(), JOptionPane.ERROR_MESSAGE);
+	            conex=null;
 			}
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e, "Error1 en la Conexión con la BD "+e.getMessage(), JOptionPane.ERROR_MESSAGE);
+            conex=null;
 		}
 	return conex;
 	}
@@ -38,14 +42,15 @@ public class Conexion {
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()){
 				//Obtener los atributos.
-				int id_producto =Integer.parseInt(rs.getString("id_producto"));
-				int precio=Integer.parseInt( rs.getString("precio"));
-				int id_proveedor = Integer.parseInt(rs.getString("id_proveedor"));
+				int id_producto =Integer.parseInt(rs.getString("idproducto"));
 				String nombre =rs.getString("nombre");
-				String descripcion = rs.getString("descripcion");
-				Producto temp = new Producto(id_producto,precio, id_proveedor,nombre, descripcion);
-//				System.out.println(temp);
-				productos.add(temp);
+				int precio=Integer.parseInt( rs.getString("precio"));
+				int id_proveedor = Integer.parseInt(rs.getString("idproveedor"));
+				int id_categoria = Integer.parseInt(rs.getString("idcategoria"));
+				int id_cantidad = Integer.parseInt(rs.getString("idcantidad"));
+				Producto temp = new Producto(id_producto,nombre,precio, id_proveedor,id_categoria, id_cantidad);
+				System.out.println(temp);
+				//productos.add(temp);
 			}
 			
 		}
@@ -54,7 +59,7 @@ public class Conexion {
 		return productos;
 	}
 	
-	public void insertarProducto(int precio,int id_proveedor,String nombre, String descripcion){
+	public void insertarProducto(String nombre,int precio,int id_proveedor,String id_categoria, int id_cantidad){
 		try{
 			conexion();
 			String query = " insert into producto (id_producto,precio,id_proveedor,nombre,descripcion)"

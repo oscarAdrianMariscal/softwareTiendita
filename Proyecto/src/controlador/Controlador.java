@@ -16,8 +16,8 @@ public class Controlador {
 		baseTienda = new Conexion();
 	}
 
-	public void agregarProducto(int precio, int id_proveedor, String nombre,String descripcion){
-		baseTienda.insertarProducto(precio, id_proveedor, nombre,descripcion);
+	public void agregarProducto(String nombre, int precio, int id_proveedor ,String categoria, int cantidad){
+		baseTienda.insertarProducto(nombre, precio, id_proveedor, categoria, cantidad );
 	}
 	
 	public ArrayList<Empleado> empleados(){

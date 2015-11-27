@@ -39,9 +39,10 @@ public class VentanaProducto extends JFrame {
 	private JTable table;
 	private JTextField buscarText;
 	private JTextField nombreText;
-	private JTextField descripcionText;
 	private JSpinner precioSpinner;
-	private JSpinner eliminarSpinner;
+	private JSpinner spinnerProveedor;
+	private JTextField textFieldCategoria;
+	private JSpinner spinnerCantidad;
 
 	/**
 	 * Create the frame.
@@ -82,29 +83,12 @@ public class VentanaProducto extends JFrame {
 		panel.add(nombreText, gbc_nombreText);
 		nombreText.setColumns(10);
 		
-		JLabel lblDescripcin = new JLabel("Descripci\u00F3n: ");
-		GridBagConstraints gbc_lblDescripcin = new GridBagConstraints();
-		gbc_lblDescripcin.anchor = GridBagConstraints.WEST;
-		gbc_lblDescripcin.insets = new Insets(0, 0, 5, 5);
-		gbc_lblDescripcin.gridx = 0;
-		gbc_lblDescripcin.gridy = 1;
-		panel.add(lblDescripcin, gbc_lblDescripcin);
-		
-		descripcionText = new JTextField();
-		GridBagConstraints gbc_descripcionText = new GridBagConstraints();
-		gbc_descripcionText.insets = new Insets(0, 0, 5, 0);
-		gbc_descripcionText.fill = GridBagConstraints.HORIZONTAL;
-		gbc_descripcionText.gridx = 1;
-		gbc_descripcionText.gridy = 1;
-		panel.add(descripcionText, gbc_descripcionText);
-		descripcionText.setColumns(10);
-		
 		JLabel lblPrecio = new JLabel("Precio: ");
 		GridBagConstraints gbc_lblPrecio = new GridBagConstraints();
 		gbc_lblPrecio.anchor = GridBagConstraints.WEST;
 		gbc_lblPrecio.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPrecio.gridx = 0;
-		gbc_lblPrecio.gridy = 2;
+		gbc_lblPrecio.gridy = 1;
 		panel.add(lblPrecio, gbc_lblPrecio);
 		
 		precioSpinner = new JSpinner();
@@ -113,19 +97,55 @@ public class VentanaProducto extends JFrame {
 		gbc_precioSpinner.fill = GridBagConstraints.HORIZONTAL;
 		gbc_precioSpinner.insets = new Insets(0, 0, 5, 0);
 		gbc_precioSpinner.gridx = 1;
-		gbc_precioSpinner.gridy = 2;
+		gbc_precioSpinner.gridy = 1;
 		panel.add(precioSpinner, gbc_precioSpinner);
+		
+		JLabel lblProveedor = new JLabel("Proveedor: ");
+		GridBagConstraints gbc_lblProveedor = new GridBagConstraints();
+		gbc_lblProveedor.anchor = GridBagConstraints.WEST;
+		gbc_lblProveedor.insets = new Insets(0, 0, 5, 5);
+		gbc_lblProveedor.gridx = 0;
+		gbc_lblProveedor.gridy = 2;
+		panel.add(lblProveedor, gbc_lblProveedor);
+		
+		spinnerProveedor = new JSpinner();
+		GridBagConstraints gbc_spinnerProveedor = new GridBagConstraints();
+		gbc_spinnerProveedor.fill = GridBagConstraints.HORIZONTAL;
+		gbc_spinnerProveedor.insets = new Insets(0, 0, 5, 0);
+		gbc_spinnerProveedor.gridx = 1;
+		gbc_spinnerProveedor.gridy = 2;
+		panel.add(spinnerProveedor, gbc_spinnerProveedor);
+		
+		JLabel lblCategoria = new JLabel("Categoria:");
+		GridBagConstraints gbc_lblCategoria = new GridBagConstraints();
+		gbc_lblCategoria.anchor = GridBagConstraints.WEST;
+		gbc_lblCategoria.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCategoria.gridx = 0;
+		gbc_lblCategoria.gridy = 3;
+		panel.add(lblCategoria, gbc_lblCategoria);
+		
+		textFieldCategoria = new JTextField();
+		GridBagConstraints gbc_textFieldCategoria = new GridBagConstraints();
+		gbc_textFieldCategoria.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldCategoria.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldCategoria.gridx = 1;
+		gbc_textFieldCategoria.gridy = 3;
+		panel.add(textFieldCategoria, gbc_textFieldCategoria);
+		textFieldCategoria.setColumns(10);
 		
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			if (nombreText.getText().isEmpty() || descripcionText.getText().isEmpty()){
+			if (nombreText.getText().isEmpty()){
 				
 			}
 			else{
 				int precio = (int)precioSpinner.getValue();
+				int proveedorId = (int)spinnerProveedor.getValue();
+				int cantidad = (int)spinnerCantidad.getValue();
 				
-				controlador.agregarProducto(precio,1,nombreText.getText(),descripcionText.getText());
+				controlador.agregarProducto(nombreText.getText(),precio,proveedorId,
+						textFieldCategoria.getText(),cantidad);
 				ArrayList<Producto> productos = controlador.productos(); 
 				Object[][] productosParaTabla= new Object[productos.size()][];
 				int i =0;		
@@ -154,41 +174,28 @@ public class VentanaProducto extends JFrame {
 			
 			}
 		});
+		
+		JLabel lblCantidad = new JLabel("Cantidad: ");
+		GridBagConstraints gbc_lblCantidad = new GridBagConstraints();
+		gbc_lblCantidad.anchor = GridBagConstraints.WEST;
+		gbc_lblCantidad.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCantidad.gridx = 0;
+		gbc_lblCantidad.gridy = 4;
+		panel.add(lblCantidad, gbc_lblCantidad);
+		
+		spinnerCantidad = new JSpinner();
+		GridBagConstraints gbc_spinnerCantidad = new GridBagConstraints();
+		gbc_spinnerCantidad.fill = GridBagConstraints.HORIZONTAL;
+		gbc_spinnerCantidad.insets = new Insets(0, 0, 5, 0);
+		gbc_spinnerCantidad.gridx = 1;
+		gbc_spinnerCantidad.gridy = 4;
+		panel.add(spinnerCantidad, gbc_spinnerCantidad);
 		GridBagConstraints gbc_btnOk = new GridBagConstraints();
 		gbc_btnOk.insets = new Insets(0, 0, 5, 0);
 		gbc_btnOk.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnOk.gridx = 1;
-		gbc_btnOk.gridy = 3;
+		gbc_btnOk.gridy = 5;
 		panel.add(btnOk, gbc_btnOk);
-		
-		JLabel lblRegistroAEliminar = new JLabel("Registro a eliminar:");
-		GridBagConstraints gbc_lblRegistroAEliminar = new GridBagConstraints();
-		gbc_lblRegistroAEliminar.insets = new Insets(0, 0, 5, 5);
-		gbc_lblRegistroAEliminar.gridx = 0;
-		gbc_lblRegistroAEliminar.gridy = 5;
-		panel.add(lblRegistroAEliminar, gbc_lblRegistroAEliminar);
-		
-		eliminarSpinner = new JSpinner();
-		GridBagConstraints gbc_eliminarSpinner = new GridBagConstraints();
-		gbc_eliminarSpinner.fill = GridBagConstraints.HORIZONTAL;
-		gbc_eliminarSpinner.insets = new Insets(0, 0, 5, 0);
-		gbc_eliminarSpinner.gridx = 1;
-		gbc_eliminarSpinner.gridy = 5;
-		panel.add(eliminarSpinner, gbc_eliminarSpinner);
-		
-		JButton btnOk_1 = new JButton("Ok");
-		btnOk_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				controlador.eliminarProducto((int)eliminarSpinner.getValue());
-				table.repaint();
-			}
-		});
-		GridBagConstraints gbc_btnOk_1 = new GridBagConstraints();
-		gbc_btnOk_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnOk_1.insets = new Insets(0, 0, 5, 0);
-		gbc_btnOk_1.gridx = 1;
-		gbc_btnOk_1.gridy = 6;
-		panel.add(btnOk_1, gbc_btnOk_1);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -205,7 +212,6 @@ public class VentanaProducto extends JFrame {
 			productosParaTabla[i][1] =p.precio;
 			productosParaTabla[i][2] =p.id_proveedor;
 			productosParaTabla[i][3] =p.nombre;
-			productosParaTabla[i][4] =p.descripcion;
 			i++;
 		}
 		
@@ -255,7 +261,6 @@ public class VentanaProducto extends JFrame {
 					productosParaTablaBuscar[i][1] =p.precio;
 					productosParaTablaBuscar[i][2] =p.id_proveedor;
 					productosParaTablaBuscar[i][3] =p.nombre;
-					productosParaTablaBuscar[i][4] =p.descripcion;
 					i++;
 				}
 				table.setModel(new DefaultTableModel(productosParaTablaBuscar,			new String[] {

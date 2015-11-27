@@ -23,11 +23,11 @@ public class Conexion {
 			try {
 				conex = DriverManager.getConnection("jdbc:postgresql://localhost:5432/tiendita","postgres","postgres");
 			} catch (SQLException e) {
-				JOptionPane.showMessageDialog(null, e, "Error2 en la Conexión con la BD "+e.getMessage(), JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, e, "Error2 en la Conexiï¿½n con la BD "+e.getMessage(), JOptionPane.ERROR_MESSAGE);
 	            conex=null;
 			}
 		} catch (ClassNotFoundException e) {
-			JOptionPane.showMessageDialog(null, e, "Error1 en la Conexión con la BD "+e.getMessage(), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e, "Error1 en la Conexiï¿½n con la BD "+e.getMessage(), JOptionPane.ERROR_MESSAGE);
             conex=null;
 		}
 	return conex;
@@ -59,7 +59,7 @@ public class Conexion {
 		return productos;
 	}
 	
-	public void insertarProducto(String nombre,int precio,int id_proveedor,String id_categoria, int cantidad){
+	public void insertarProducto(int codigo,String nombre,int precio,int id_proveedor,String id_categoria, int cantidad){
 		try{
 			conexion();
 			String query = " insert into producto (idproducto,nombre,precio,idproveedor,idcategoria,cantidad)"

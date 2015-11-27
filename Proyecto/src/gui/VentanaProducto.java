@@ -43,6 +43,7 @@ public class VentanaProducto extends JFrame {
 	private JSpinner spinnerProveedor;
 	private JTextField textFieldCategoria;
 	private JSpinner spinnerCantidad;
+	private JTextField textField;
 
 	/**
 	 * Create the frame.
@@ -66,12 +67,29 @@ public class VentanaProducto extends JFrame {
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
+		JLabel lblCodigo = new JLabel("Codigo:");
+		GridBagConstraints gbc_lblCodigo = new GridBagConstraints();
+		gbc_lblCodigo.anchor = GridBagConstraints.WEST;
+		gbc_lblCodigo.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCodigo.gridx = 0;
+		gbc_lblCodigo.gridy = 0;
+		panel.add(lblCodigo, gbc_lblCodigo);
+		
+		textField = new JTextField();
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.insets = new Insets(0, 0, 5, 0);
+		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.gridx = 1;
+		gbc_textField.gridy = 0;
+		panel.add(textField, gbc_textField);
+		textField.setColumns(10);
+		
 		JLabel lblNombre = new JLabel("Nombre: ");
 		GridBagConstraints gbc_lblNombre = new GridBagConstraints();
 		gbc_lblNombre.anchor = GridBagConstraints.WEST;
 		gbc_lblNombre.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNombre.gridx = 0;
-		gbc_lblNombre.gridy = 0;
+		gbc_lblNombre.gridy = 1;
 		panel.add(lblNombre, gbc_lblNombre);
 		
 		nombreText = new JTextField();
@@ -79,7 +97,7 @@ public class VentanaProducto extends JFrame {
 		gbc_nombreText.insets = new Insets(0, 0, 5, 0);
 		gbc_nombreText.fill = GridBagConstraints.HORIZONTAL;
 		gbc_nombreText.gridx = 1;
-		gbc_nombreText.gridy = 0;
+		gbc_nombreText.gridy = 1;
 		panel.add(nombreText, gbc_nombreText);
 		nombreText.setColumns(10);
 		
@@ -88,7 +106,7 @@ public class VentanaProducto extends JFrame {
 		gbc_lblPrecio.anchor = GridBagConstraints.WEST;
 		gbc_lblPrecio.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPrecio.gridx = 0;
-		gbc_lblPrecio.gridy = 1;
+		gbc_lblPrecio.gridy = 2;
 		panel.add(lblPrecio, gbc_lblPrecio);
 		
 		precioSpinner = new JSpinner();
@@ -97,7 +115,7 @@ public class VentanaProducto extends JFrame {
 		gbc_precioSpinner.fill = GridBagConstraints.HORIZONTAL;
 		gbc_precioSpinner.insets = new Insets(0, 0, 5, 0);
 		gbc_precioSpinner.gridx = 1;
-		gbc_precioSpinner.gridy = 1;
+		gbc_precioSpinner.gridy = 2;
 		panel.add(precioSpinner, gbc_precioSpinner);
 		
 		JLabel lblProveedor = new JLabel("Proveedor: ");
@@ -105,7 +123,7 @@ public class VentanaProducto extends JFrame {
 		gbc_lblProveedor.anchor = GridBagConstraints.WEST;
 		gbc_lblProveedor.insets = new Insets(0, 0, 5, 5);
 		gbc_lblProveedor.gridx = 0;
-		gbc_lblProveedor.gridy = 2;
+		gbc_lblProveedor.gridy = 3;
 		panel.add(lblProveedor, gbc_lblProveedor);
 		
 		spinnerProveedor = new JSpinner();
@@ -113,7 +131,7 @@ public class VentanaProducto extends JFrame {
 		gbc_spinnerProveedor.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinnerProveedor.insets = new Insets(0, 0, 5, 0);
 		gbc_spinnerProveedor.gridx = 1;
-		gbc_spinnerProveedor.gridy = 2;
+		gbc_spinnerProveedor.gridy = 3;
 		panel.add(spinnerProveedor, gbc_spinnerProveedor);
 		
 		JLabel lblCategoria = new JLabel("Categoria:");
@@ -121,17 +139,8 @@ public class VentanaProducto extends JFrame {
 		gbc_lblCategoria.anchor = GridBagConstraints.WEST;
 		gbc_lblCategoria.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCategoria.gridx = 0;
-		gbc_lblCategoria.gridy = 3;
+		gbc_lblCategoria.gridy = 4;
 		panel.add(lblCategoria, gbc_lblCategoria);
-		
-		textFieldCategoria = new JTextField();
-		GridBagConstraints gbc_textFieldCategoria = new GridBagConstraints();
-		gbc_textFieldCategoria.insets = new Insets(0, 0, 5, 0);
-		gbc_textFieldCategoria.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textFieldCategoria.gridx = 1;
-		gbc_textFieldCategoria.gridy = 3;
-		panel.add(textFieldCategoria, gbc_textFieldCategoria);
-		textFieldCategoria.setColumns(10);
 		
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener() {
@@ -144,17 +153,17 @@ public class VentanaProducto extends JFrame {
 				int proveedorId = (int)spinnerProveedor.getValue();
 				int cantidad = (int)spinnerCantidad.getValue();
 				
-				controlador.agregarProducto(nombreText.getText(),precio,proveedorId,
+				controlador.agregarProducto(Integer.parseInt(textField.getText()),nombreText.getText(),precio,proveedorId,
 						textFieldCategoria.getText(),cantidad);
 				ArrayList<Producto> productos = controlador.productos(); 
 				Object[][] productosParaTabla= new Object[productos.size()][];
 				int i =0;		
 				for (Producto p: productos){
 					productosParaTabla[i]= new Object[5];
-					productosParaTabla[i][0] =p.id_producto;
+					productosParaTabla[i][0] =p.nombre;
 					productosParaTabla[i][1] =p.precio;
 					productosParaTabla[i][2] =p.id_proveedor;
-					productosParaTabla[i][3] =p.nombre;
+					productosParaTabla[i][3] =p.id_producto;
 					productosParaTabla[i][4] =p.id_categoria;
 					i++;
 				}
@@ -162,7 +171,7 @@ public class VentanaProducto extends JFrame {
 				table.setModel(new DefaultTableModel(
 					productosParaTabla,
 					new String[] {
-						"id Producto", "Precio", "id Proveedor", "nombre", "Descripcion"
+							"Nombre","precio", "Id proveedor", "id Producto", "id Categoria"
 					}
 				));
 				table.repaint();
@@ -175,12 +184,21 @@ public class VentanaProducto extends JFrame {
 			}
 		});
 		
+		textFieldCategoria = new JTextField();
+		GridBagConstraints gbc_textFieldCategoria = new GridBagConstraints();
+		gbc_textFieldCategoria.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldCategoria.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldCategoria.gridx = 1;
+		gbc_textFieldCategoria.gridy = 4;
+		panel.add(textFieldCategoria, gbc_textFieldCategoria);
+		textFieldCategoria.setColumns(10);
+		
 		JLabel lblCantidad = new JLabel("Cantidad: ");
 		GridBagConstraints gbc_lblCantidad = new GridBagConstraints();
 		gbc_lblCantidad.anchor = GridBagConstraints.WEST;
 		gbc_lblCantidad.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCantidad.gridx = 0;
-		gbc_lblCantidad.gridy = 4;
+		gbc_lblCantidad.gridy = 5;
 		panel.add(lblCantidad, gbc_lblCantidad);
 		
 		spinnerCantidad = new JSpinner();
@@ -188,13 +206,13 @@ public class VentanaProducto extends JFrame {
 		gbc_spinnerCantidad.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinnerCantidad.insets = new Insets(0, 0, 5, 0);
 		gbc_spinnerCantidad.gridx = 1;
-		gbc_spinnerCantidad.gridy = 4;
+		gbc_spinnerCantidad.gridy = 5;
 		panel.add(spinnerCantidad, gbc_spinnerCantidad);
 		GridBagConstraints gbc_btnOk = new GridBagConstraints();
 		gbc_btnOk.insets = new Insets(0, 0, 5, 0);
 		gbc_btnOk.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnOk.gridx = 1;
-		gbc_btnOk.gridy = 5;
+		gbc_btnOk.gridy = 6;
 		panel.add(btnOk, gbc_btnOk);
 		
 		JPanel panel_1 = new JPanel();

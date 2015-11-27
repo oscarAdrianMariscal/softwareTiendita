@@ -44,13 +44,13 @@ public class Conexion {
 				//Obtener los atributos.
 				int id_producto =Integer.parseInt(rs.getString("idproducto"));
 				String nombre =rs.getString("nombre");
-				int precio=Integer.parseInt( rs.getString("precio"));
+				float precio=rs.getFloat("precio");
 				int id_proveedor = Integer.parseInt(rs.getString("idproveedor"));
 				int id_categoria = Integer.parseInt(rs.getString("idcategoria"));
 				int cantidad = Integer.parseInt(rs.getString("cantidad"));
 				Producto temp = new Producto(id_producto,nombre,precio, id_proveedor,id_categoria, cantidad);
-				System.out.println(temp);
-				//productos.add(temp);
+				//System.out.println(temp);
+				productos.add(temp);
 			}
 			
 		}
@@ -250,13 +250,17 @@ public class Conexion {
 			while (rs.next()){
 				//Obtener los atributos.
 				int id_empleado = Integer.parseInt(rs.getString("id_empleado"));
-				int salario     = Integer.parseInt(rs.getString("salario"));
-				String horario  = rs.getString("horario");
-				String puesto   = rs.getString("puesto");
-				int edad        = Integer.parseInt(rs.getString("edad"));
 				String nombre   = rs.getString("nombre");
+				String apellido   = rs.getString("apellido");
+				float salario     = rs.getFloat("salario");
+				String puesto   = rs.getString("puesto");
+				String horario  = rs.getString("horario");
+				int edad        = Integer.parseInt(rs.getString("edad"));
+				String telefono   = rs.getString("telefono");
+				String direccion   = rs.getString("direccion");
+				String correo   = rs.getString("correo");
 				
-				Empleado temp = new Empleado(id_empleado,salario,horario,puesto,edad,nombre);
+				Empleado temp = new Empleado(id_empleado,nombre,apellido,salario,puesto,horario,edad,telefono,direccion,correo);
 				empleados.add(temp);
 			}
 			

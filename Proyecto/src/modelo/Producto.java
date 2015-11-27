@@ -3,13 +3,13 @@ package modelo;
 public class Producto {
 	public int id_producto;
 	public String nombre;
-	public int precio;
+	public float precio;
 	public int id_proveedor;
 	public int id_categoria;
 	public int cantidad;
 	
 	
-	public Producto(int id_producto, String nombre, int precio, int id_proveedor,
+	public Producto(int id_producto, String nombre, float precio, int id_proveedor,
 			int id_categoria, int cantidad) {
 		this.id_producto = id_producto;
 		this.nombre = nombre;

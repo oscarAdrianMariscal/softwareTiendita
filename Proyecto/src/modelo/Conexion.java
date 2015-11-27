@@ -21,7 +21,7 @@ public class Conexion {
 		try {
 			Class.forName("org.postgresql.Driver");
 			try {
-				conex = DriverManager.getConnection("jdbc:postgresql://localhost:5432/tienda","postgres","postgres");
+				conex = DriverManager.getConnection("jdbc:postgresql://localhost:5432/tiendita","postgres","postgres");
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, e, "Error2 en la Conexión con la BD "+e.getMessage(), JOptionPane.ERROR_MESSAGE);
 	            conex=null;
@@ -47,8 +47,8 @@ public class Conexion {
 				int precio=Integer.parseInt( rs.getString("precio"));
 				int id_proveedor = Integer.parseInt(rs.getString("idproveedor"));
 				int id_categoria = Integer.parseInt(rs.getString("idcategoria"));
-				int id_cantidad = Integer.parseInt(rs.getString("idcantidad"));
-				Producto temp = new Producto(id_producto,nombre,precio, id_proveedor,id_categoria, id_cantidad);
+				int cantidad = Integer.parseInt(rs.getString("cantidad"));
+				Producto temp = new Producto(id_producto,nombre,precio, id_proveedor,id_categoria, cantidad);
 				System.out.println(temp);
 				//productos.add(temp);
 			}
@@ -59,18 +59,19 @@ public class Conexion {
 		return productos;
 	}
 	
-	public void insertarProducto(String nombre,int precio,int id_proveedor,String id_categoria, int id_cantidad){
+	public void insertarProducto(String nombre,int precio,int id_proveedor,String id_categoria, int cantidad){
 		try{
 			conexion();
-			String query = " insert into producto (id_producto,precio,id_proveedor,nombre,descripcion)"
-			        + " values (?, ?, ?, ?, ?)";
+			String query = " insert into producto (idproducto,nombre,precio,idproveedor,idcategoria,cantidad)"
+			        + " values (?, ?, ?, ?, ?, ?)";
 			 
 			PreparedStatement pst = conex.prepareStatement(query);
 			pst.setString(1, "0");
-			pst.setString(2, String.valueOf(precio));
-			pst.setString(3, String.valueOf(1));
-			pst.setString(4, nombre);
-			pst.setString(5, descripcion);
+			pst.setString(2, nombre);
+			pst.setString(3, String.valueOf(precio));
+			pst.setString(4, String.valueOf(1));
+			pst.setString(5, String.valueOf(1));
+			pst.setString(6, String.valueOf(cantidad));
 			int consulta = pst.executeUpdate();
 			if (consulta>0){
 				System.out.println("HEKLADLVJAS");
@@ -98,15 +99,18 @@ public class Conexion {
 		
 	}
 	
-	public void insertarProveedor(String nombre){
+	public void insertarProveedor(String nombre, String domicilio, String telefono, String correo){
 		try{
 			conexion();
-			String query = " insert into proveedor (idProveedor,nombre)"
-			        + " values (?, ?)";
+			String query = " insert into proveedor (idproveedor,nombreproveedor,domicilio,telefono,correo)"
+			        + " values (?, ?, ?, ?, ?)";
 			 
 			PreparedStatement pst = conex.prepareStatement(query);
 			pst.setString(1, "0");
 			pst.setString(2, nombre);
+			pst.setString(3, domicilio);
+			pst.setString(4, telefono);
+			pst.setString(5, correo);
 			int consulta = pst.executeUpdate();
 			if (consulta>0){
 //				System.out.println("HEKLADLVJAS");
@@ -131,12 +135,14 @@ public class Conexion {
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()){
 				//Obtener los atributos.
-				int id_proveedor =Integer.parseInt(rs.getString("idProveedor"));
-				String nombre = rs.getString("nombre");
-				Proveedor temp = new Proveedor(id_proveedor,nombre);
+				int id_proveedor =Integer.parseInt(rs.getString("idproveedor"));
+				String nombre = rs.getString("nombreproveedor");
+				String domicilio = rs.getString("domicilio");
+				String telefono = rs.getString("telefono");
+				String correo = rs.getString("correo");
+				Proveedor temp = new Proveedor(id_proveedor,nombre,domicilio,telefono,correo);
 				proveedores.add(temp);
 			}
-			
 		}
 		catch(SQLException ex){
 		}
@@ -190,15 +196,17 @@ public class Conexion {
 		return inventario;
 	}
 
-	public void insertarEmpleado(int salario, String horario, String puesto,
-			int edad, String nombre) {
+	public void insertarEmpleado(int id_empleado, String nombre, String apellido, int salario, String puesto, String horario,
+			int edad, String telefono, String direccion, String correo) {
 		try{
 			conexion();
-			String query = "insert into empleado (id_empleado, salario, horario, puesto, edad, nombre)"
-			        + " values (?, ?, ?, ?, ?, ?)";
+			String query = "insert into empleado (idempleado, nombreempleado, apellidoempleado, salario, puesto, horario, edad, telefono, direccion, correo)"
+			        + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			 
 			PreparedStatement pst = conex.prepareStatement(query);
 			pst.setString(1, "0");
+			pst.setString(2, nombre);
+			pst.setString(3, apellido);
 			pst.setString(2, String.valueOf(salario));
 			pst.setString(3, horario);
 			pst.setString(4, puesto);

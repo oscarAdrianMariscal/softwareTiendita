@@ -135,7 +135,7 @@ public class VentanaProducto extends JFrame {
 					productosParaTabla[i][1] =p.precio;
 					productosParaTabla[i][2] =p.id_proveedor;
 					productosParaTabla[i][3] =p.nombre;
-					productosParaTabla[i][4] =p.descripcion;
+					productosParaTabla[i][4] =p.id_categoria;
 					i++;
 				}
 				

@@ -9,8 +9,8 @@ public class Empleado {
 	public String nombre;
 	
 	
-	public Empleado(int id_empleado, int salario, String horario,
-			String puesto, int edad, String nombre) {
+	public Empleado(int id_empleado, String nombre, String apellido, int salario, String puesto, String horario,
+			int edad, String telefono, String direccion, String correo) {
 		super();
 		this.id_empleado = id_empleado;
 		this.salario = salario;

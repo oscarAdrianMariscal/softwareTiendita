@@ -36,7 +36,8 @@ public class Conexion {
 	
 	public ArrayList<Producto> mostrarTablaProducto(){
 		ArrayList<Producto> productos = new ArrayList<Producto>();
-		String sql = "SELECT * From producto";
+		String sql = "select idproducto, nombre, precio, cantidad, p.nombreproveedor, c.categoria from producto inner join proveedor as p on p.idproveedor = producto.idpro"+
+					 "veedor inner join categoriaproducto as c on c.idcategoria = producto.idcategoria";
 		try{
 			conexion();
 			Statement st = conex.createStatement();
@@ -46,10 +47,10 @@ public class Conexion {
 				int id_producto =Integer.parseInt(rs.getString("idproducto"));
 				String nombre =rs.getString("nombre");
 				float precio=rs.getFloat("precio");
-				int id_proveedor = Integer.parseInt(rs.getString("idproveedor"));
-				int id_categoria = Integer.parseInt(rs.getString("idcategoria"));
+				String proveedor = rs.getString("nommbreproveedor");
+				String categoria = rs.getString("categoria");
 				int cantidad = Integer.parseInt(rs.getString("cantidad"));
-				Producto temp = new Producto(id_producto,nombre,precio, id_proveedor,id_categoria, cantidad);
+				Producto temp = new Producto(id_producto,nombre,precio, proveedor,categoria,cantidad);
 				//System.out.println(temp);
 				productos.add(temp);
 			}

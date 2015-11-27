@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.JOptionPane;
 
 
@@ -62,29 +63,49 @@ public class Conexion {
 	public void insertarProducto(int codigo,String nombre,int precio,int id_proveedor,String id_categoria, int cantidad){
 		try{
 			conexion();
-			String query = " insert into producto (idproducto,nombre,precio,idproveedor,idcategoria,cantidad)"
-			        + " values (?, ?, ?, ?, ?, ?)";
-			 
-			PreparedStatement pst = conex.prepareStatement(query);
-			pst.setString(1, "0");
-			pst.setString(2, nombre);
-			pst.setString(3, String.valueOf(precio));
-			pst.setString(4, String.valueOf(1));
-			pst.setString(5, String.valueOf(1));
-			pst.setString(6, String.valueOf(cantidad));
-			int consulta = pst.executeUpdate();
-			if (consulta>0){
-				System.out.println("HEKLADLVJAS");
-			}
-			else{
+			Statement st = conex.createStatement();
+			ResultSet rs = st.executeQuery("Select * FROM categoriaproducto");
+			int categoria=0;
+			boolean band = false;
+			
+			while(rs.next())
+			{
+				if(id_categoria.equals(rs.getString("categoria")));
+				{
+					System.out.println(id_categoria);
+					System.out.println(rs.getString("categoria"));
+					categoria = rs.getInt("idcategoria");
+					band=true;
+					break;
+				}	
 			}
 			
-			
+			if(band==true)
+			{
+				String query = " insert into producto (idproducto,nombre,precio,idproveedor,idcategoria,cantidad)"
+				        + " values (?, ?, ?, ?, ?, ?)";
+				 
+				PreparedStatement pst = conex.prepareStatement(query);
+				pst.setInt(1, codigo);
+				pst.setString(2, nombre);
+				pst.setFloat(3, precio);
+				pst.setInt(4, id_proveedor);
+				pst.setInt(5, categoria);
+				pst.setInt(6, cantidad);
+				int consulta = pst.executeUpdate();
+				if (consulta>0){
+					JOptionPane.showMessageDialog(null, "Producto agregado");
+				}
+				else{
+				}
+			}else
+			{
+				JOptionPane.showMessageDialog(null, "No existe la categoria: "+id_categoria, "Error al Agregar", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		catch(SQLException ex){
-			System.out.println("ERROR EN METODO insertar producto");
-		}
-				
+			System.out.println("ERROR EN METODO insertar producto"+ex.getMessage());
+		}		
 	}
 	
 	public void eliminarProducto(int id){

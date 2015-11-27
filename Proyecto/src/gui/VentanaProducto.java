@@ -159,12 +159,13 @@ public class VentanaProducto extends JFrame {
 				Object[][] productosParaTabla= new Object[productos.size()][];
 				int i =0;		
 				for (Producto p: productos){
-					productosParaTabla[i]= new Object[5];
-					productosParaTabla[i][0] =p.nombre;
-					productosParaTabla[i][1] =p.precio;
-					productosParaTabla[i][2] =p.id_proveedor;
-					productosParaTabla[i][3] =p.id_producto;
+					productosParaTabla[i]= new Object[6];
+					productosParaTabla[i][0] =p.id_producto;
+					productosParaTabla[i][1] =p.nombre;
+					productosParaTabla[i][2] =p.precio;
+					productosParaTabla[i][3] =p.id_proveedor;
 					productosParaTabla[i][4] =p.id_categoria;
+					productosParaTabla[i][5] =p.cantidad;
 					i++;
 				}
 				
@@ -177,7 +178,7 @@ public class VentanaProducto extends JFrame {
 				table.repaint();
 				
 				
-				JOptionPane.showMessageDialog(null, "Producto agregado");
+				//JOptionPane.showMessageDialog(null, "Producto agregado");
 				
 			}
 			

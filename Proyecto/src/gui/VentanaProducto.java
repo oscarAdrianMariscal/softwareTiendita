@@ -117,7 +117,7 @@ public class VentanaProducto extends JFrame {
 		panel.add(lblPrecio, gbc_lblPrecio);
 		
 		precioSpinner = new JSpinner();
-		precioSpinner.setModel(new SpinnerNumberModel(new Integer(3), new Integer(1), null, new Integer(1)));
+		precioSpinner.setModel(new SpinnerNumberModel(new Float(3), new Float(1), null, new Float(1)));
 		GridBagConstraints gbc_precioSpinner = new GridBagConstraints();
 		gbc_precioSpinner.fill = GridBagConstraints.HORIZONTAL;
 		gbc_precioSpinner.insets = new Insets(0, 0, 5, 0);

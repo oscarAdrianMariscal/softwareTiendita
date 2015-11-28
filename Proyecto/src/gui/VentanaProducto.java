@@ -154,18 +154,19 @@ public class VentanaProducto extends JFrame {
 		for (Proveedor proveedor : provedores) {
 			comboBox.addItem(proveedor.nombre);
 		}
-		JButton btnOk = new JButton("Ok");
-		btnOk.addActionListener(new ActionListener() {
+		JButton btnAgregar = new JButton("Ok");
+		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			if (nombreText.getText().isEmpty()){
 				
 			}
 			else{
 				float precio = (float)precioSpinner.getValue();
-				
+				String categoria =comboCategoria.getSelectedItem().toString();
+				String proveedor = (String)comboBox.getSelectedItem().toString();
 				int cantidad = (int)spinnerCantidad.getValue();
 				
-				controlador.agregarProducto(Integer.parseInt(textCodigo.getText()), nombreText.getText(), precio, (String)comboBox.getSelectedItem(), (String)comboCategoria.getSelectedItem(), cantidad);
+				controlador.agregarProducto(Integer.parseInt(textCodigo.getText()), nombreText.getText(), precio,proveedor ,categoria , cantidad);
 				ArrayList<Producto> productos = controlador.productos(); 
 				Object[][] productosParaTabla= new Object[productos.size()][];
 				int i =0;		
@@ -183,7 +184,7 @@ public class VentanaProducto extends JFrame {
 				table.setModel(new DefaultTableModel(
 					productosParaTabla,
 					new String[] {
-							"Nombre","precio", "Id proveedor", "id Producto", "id Categoria"
+							"Código", "Nombre", "precio", "proveedor", "Categoria","Cantidad"
 					}
 				));
 				table.repaint();
@@ -222,12 +223,12 @@ public class VentanaProducto extends JFrame {
 		gbc_spinnerCantidad.gridx = 1;
 		gbc_spinnerCantidad.gridy = 5;
 		panel.add(spinnerCantidad, gbc_spinnerCantidad);
-		GridBagConstraints gbc_btnOk = new GridBagConstraints();
-		gbc_btnOk.insets = new Insets(0, 0, 5, 0);
-		gbc_btnOk.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnOk.gridx = 1;
-		gbc_btnOk.gridy = 6;
-		panel.add(btnOk, gbc_btnOk);
+		GridBagConstraints gbc_btnAgregar = new GridBagConstraints();
+		gbc_btnAgregar.insets = new Insets(0, 0, 5, 0);
+		gbc_btnAgregar.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnAgregar.gridx = 1;
+		gbc_btnAgregar.gridy = 6;
+		panel.add(btnAgregar, gbc_btnAgregar);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -301,7 +302,7 @@ public class VentanaProducto extends JFrame {
 					i++;
 				}
 				table.setModel(new DefaultTableModel(productosParaTablaBuscar,			new String[] {
-				"id Producto", "Nombre", "precio", "proveedor", "categoria", "cantidad"
+						"Código", "Nombre", "precio", "proveedor", "Categoria","Cantidad"
 			}));
 				table.repaint();
 				

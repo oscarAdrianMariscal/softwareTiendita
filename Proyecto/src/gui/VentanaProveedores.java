@@ -23,7 +23,6 @@ import javax.swing.table.DefaultTableModel;
 
 import modelo.Proveedor;
 import controlador.Controlador;
-import javax.swing.JSpinner;
 
 public class VentanaProveedores extends JFrame {
 
@@ -86,7 +85,7 @@ public class VentanaProveedores extends JFrame {
 					
 				}
 				else{
-					controlador.agregarProveedor(nombreText.getText());
+					controlador.agregarProveedor(nombreText.getText(),);
 					ArrayList<Proveedor>proveedores =  controlador.proveedores();
 					Object[][] proveedoresParaTabla= new Object[proveedores.size()][];
 					int i =0;

@@ -223,7 +223,7 @@ public class VentanaEmpleados extends JFrame {
 					String telefono = telefonoText.getText();
 					String direccion = direccionText.getText();
 					String correo = correoText.getText();
-					controlador.agregarEmpleado(nombre, apellido, salario, puesto, horario, edad, telefono, direccion, correo);
+					controlador.agregarEmpleado(nombre, apellido, (Integer)salario, puesto, horario, edad, telefono, direccion, correo);
 					ArrayList<Empleado> empleados = controlador.empleados(); 
 					Object[][] empleadosParaTabla= new Object[empleados.size()][];
 					int i =0;		

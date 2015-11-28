@@ -75,19 +75,19 @@ public class VentanaTicket extends JFrame {
 		Object[][] productosParaTabla= new Object[productos.size()][];
 		int i =0;		
 		for (Ticket p: productos){
-			productosParaTabla[i]= new Object[4];
-			productosParaTabla[i][0] =p.id_ticket;
-			productosParaTabla[i][1] =p.fecha;
-			productosParaTabla[i][2] =p.id_empleado;
-			//System.out.println(p.informacion);
-			//productosParaTabla[i][3] =p.informacion;
+			productosParaTabla[i]= new Object[5];
+			productosParaTabla[i][0] =p.producto;
+			productosParaTabla[i][1] =p.precio;
+			productosParaTabla[i][2] =p.fecha;
+			productosParaTabla[i][3] =p.empleado;
+			productosParaTabla[i][4] =p.apellido;
 			i++;
 		}
 		
 		table.setModel(new DefaultTableModel(
 			productosParaTabla,
 			new String[] {
-				"id Ticket", "Fecha", "id empleado"
+				"Producto", "Precio", "Fecha", "Empleado", "Apellido"
 			}
 		));
 		panel_1.add(new JScrollPane(table), BorderLayout.CENTER);
@@ -118,7 +118,7 @@ public class VentanaTicket extends JFrame {
 				ArrayList<Ticket> productosDos = new ArrayList<Ticket>();
 				
 				for ( Ticket p: productosUno){
-					if (p.id_ticket ==Integer.parseInt(buscarText.getText())){
+					if (p.fecha ==buscarText.getText()){
 						productosDos.add(p);
 					}
 				}
@@ -129,18 +129,19 @@ public class VentanaTicket extends JFrame {
 				Object[][] productosParaTabla= new Object[productos.size()][];
 				int j =0;		
 				for (Ticket p: productosDos){
-					productosParaTabla[j]= new Object[4];
-					productosParaTabla[j][0] =p.id_ticket;
-					productosParaTabla[j][1] =p.fecha;
-					productosParaTabla[j][2] =p.id_empleado;
-					productosParaTabla[j][3] =p.informacion;
+					productosParaTabla[i]= new Object[5];
+					productosParaTabla[i][0] =p.producto;
+					productosParaTabla[i][1] =p.precio;
+					productosParaTabla[i][2] =p.fecha;
+					productosParaTabla[i][3] =p.empleado;
+					productosParaTabla[i][4] =p.apellido;
 					j++;
 				}
 				
 				table.setModel(new DefaultTableModel(
 					productosParaTabla,
 					new String[] {
-						"id Ticket", "Fecha", "id empleado"
+							"Producto", "Precio", "Fecha", "Empleado", "Apellido"
 					}
 				));
 				table.repaint();

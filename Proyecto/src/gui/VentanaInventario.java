@@ -6,7 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,14 +16,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 
 import controlador.Controlador;
-import modelo.Inventario;
-import javax.swing.SpinnerNumberModel;
 
 public class VentanaInventario extends JFrame {
 
@@ -66,7 +63,7 @@ public class VentanaInventario extends JFrame {
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JOptionPane.showMessageDialog(null, "Actualizado!.");
-				controlador.actualizarInventario((int)idProductoSpinner.getValue(),(int)cantidadSpinner.getValue());
+//				controlador.actualizarInventario((int)idProductoSpinner.getValue(),(int)cantidadSpinner.getValue());
 //				
 			}
 		});
@@ -106,22 +103,22 @@ public class VentanaInventario extends JFrame {
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
 		table = new JTable();
-		ArrayList<Inventario> inventarios = controlador.inventarios();
-		Object[][] inventariosParaTabla= new Object[inventarios.size()][];
+//		ArrayList<Inventario> inventarios = controlador.inventarios();
+//		Object[][] inventariosParaTabla= new Object[inventarios.size()][];
 		int i =0;		
-		for (Inventario n: inventarios){
-			inventariosParaTabla[i]= new Object[3];
-			inventariosParaTabla[i][0] =n.nombreProducto;
-			inventariosParaTabla[i][1] =n.id_producto;
-			inventariosParaTabla[i][2] =n.cantidad;
-			i++;
-		}
-		table.setModel(new DefaultTableModel( inventariosParaTabla
-			,
-			new String[] {
-				"Nombre producto", "Id producto", "Cantidad"
-			}
-		));
+//		for (Inventario n: inventarios){
+//			inventariosParaTabla[i]= new Object[3];
+//			inventariosParaTabla[i][0] =n.nombreProducto;
+//			inventariosParaTabla[i][1] =n.id_producto;
+//			inventariosParaTabla[i][2] =n.cantidad;
+//			i++;
+//		}
+//		table.setModel(new DefaultTableModel( inventariosParaTabla
+//			,
+//			new String[] {
+//				"Nombre producto", "Id producto", "Cantidad"
+//			}
+//		));
 		panel_1.add(new JScrollPane(table) , BorderLayout.CENTER);
 		
 		JPanel panel_2 = new JPanel();

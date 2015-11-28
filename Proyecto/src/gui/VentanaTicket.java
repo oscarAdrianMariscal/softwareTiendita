@@ -73,7 +73,8 @@ public class VentanaTicket extends JFrame {
 		table = new JTable();
 		ArrayList<Ticket> productos = controlador.tickets();
 		Object[][] productosParaTabla= new Object[productos.size()][];
-		int i =0;		
+		int i =0;
+		System.out.println(controlador.tickets().size());;
 		for (Ticket p: productos){
 			productosParaTabla[i]= new Object[5];
 			productosParaTabla[i][0] =p.producto;

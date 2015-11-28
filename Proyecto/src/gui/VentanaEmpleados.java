@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Empleado;
 import controlador.Controlador;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTabbedPane;
 
 public class VentanaEmpleados extends JFrame {
 
@@ -46,6 +47,7 @@ public class VentanaEmpleados extends JFrame {
 	private JTextField telefonoText;
 	private JTextField direccionText;
 	private JTextField correoText;
+	private JTextField textEliminarEmpleado;
 
 	/**
 	 * Create the frame.
@@ -62,7 +64,7 @@ public class VentanaEmpleados extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Opciones", TitledBorder.LEFT, TitledBorder.TOP, null, null));
-		contentPane.add(panel, BorderLayout.WEST);
+		//
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{0, 0, 0};
 		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -364,6 +366,55 @@ public class VentanaEmpleados extends JFrame {
 		gbc_btnBuscar.gridx = 1;
 		gbc_btnBuscar.gridy = 0;
 		panel_2.add(btnBuscar, gbc_btnBuscar);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.add("Agregar",panel);
+		contentPane.add(tabbedPane, BorderLayout.WEST);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBorder(new TitledBorder(null, "Opciones", TitledBorder.LEFT, TitledBorder.TOP, null, null));
+		tabbedPane.addTab("Eliminar", null, panel_3, null);
+		GridBagLayout gbl_panel_3 = new GridBagLayout();
+		gbl_panel_3.columnWidths = new int[]{0, 0, 0};
+		gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_3.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel_3.setLayout(gbl_panel_3);
+		
+		JLabel label = new JLabel("Id: ");
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.anchor = GridBagConstraints.WEST;
+		gbc_label.insets = new Insets(0, 0, 5, 5);
+		gbc_label.gridx = 0;
+		gbc_label.gridy = 0;
+		panel_3.add(label, gbc_label);
+		
+		textEliminarEmpleado = new JTextField();
+		textEliminarEmpleado.setColumns(10);
+		GridBagConstraints gbc_textEliminarEmpleado = new GridBagConstraints();
+		gbc_textEliminarEmpleado.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textEliminarEmpleado.insets = new Insets(0, 0, 5, 0);
+		gbc_textEliminarEmpleado.gridx = 1;
+		gbc_textEliminarEmpleado.gridy = 0;
+		panel_3.add(textEliminarEmpleado, gbc_textEliminarEmpleado);
+		
+		JButton btnBorrar = new JButton("Ok");
+		btnBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ArrayList<Empleado> empleados = controlador.empleados();
+				for (Empleado p : empleados){
+					if (p.id_empleado == Integer.parseInt(textEliminarEmpleado.getText()) ){
+						controlador.eliminarEmpleado(p.id_empleado);
+					}
+				}
+			}
+		});
+		GridBagConstraints gbc_btnBorrar = new GridBagConstraints();
+		gbc_btnBorrar.insets = new Insets(0, 0, 5, 0);
+		gbc_btnBorrar.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnBorrar.gridx = 1;
+		gbc_btnBorrar.gridy = 1;
+		panel_3.add(btnBorrar, gbc_btnBorrar);
 	}
 
 }

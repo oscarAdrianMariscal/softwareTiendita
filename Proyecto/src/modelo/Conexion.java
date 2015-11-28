@@ -42,17 +42,38 @@ public class Conexion {
 				int id_producto =Integer.parseInt(rs.getString("idproducto"));
 				String nombre =rs.getString("nombre");
 				float precio=rs.getFloat("precio");
-				String proveedor = rs.getString("nommbreproveedor");
+				String proveedor = rs.getString("nombreproveedor");
 				String categoria = rs.getString("categoria");
 				int cantidad = Integer.parseInt(rs.getString("cantidad"));
 				Producto temp = new Producto(id_producto,nombre,precio, proveedor,categoria,cantidad);
 				productos.add(temp);
-			}
-			
+			}	
 		}
 		catch(SQLException ex){
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
 		}
 		return productos;
+	}
+	
+	public ArrayList<Categoria> mostrarCategoria(){
+		ArrayList<Categoria> categoria = new ArrayList<Categoria>();
+		String sql = "Select * FROM categoriaproducto";
+		try{
+			conexion();
+			Statement st = conex.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()){
+				//Obtener los atributos.
+				int id_categoria =rs.getInt("idcategoria");
+				String nombre =rs.getString("categoria");
+				Categoria temp = new Categoria(id_categoria,nombre);
+				categoria.add(temp);
+			}	
+		}
+		catch(SQLException ex){
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
+		}
+		return categoria;
 	}
 	
 	public void insertarProducto(int codigo,String nombre,float precio,String proveedor,String categoria, int cantidad){
@@ -311,9 +332,9 @@ public class Conexion {
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()){
 				//Obtener los atributos.
-				int id_empleado = Integer.parseInt(rs.getString("id_empleado"));
-				String nombre   = rs.getString("nombre");
-				String apellido   = rs.getString("apellido");
+				int id_empleado = Integer.parseInt(rs.getString("idempleado"));
+				String nombre   = rs.getString("nombreempleado");
+				String apellido   = rs.getString("apellidoempleado");
 				float salario     = rs.getFloat("salario");
 				String puesto   = rs.getString("puesto");
 				String horario  = rs.getString("horario");

@@ -1,6 +1,8 @@
 package controlador;
 
 import java.util.ArrayList;
+
+import modelo.Categoria;
 import modelo.Conexion;
 import modelo.Empleado;
 import modelo.Inventario;
@@ -17,6 +19,10 @@ public class Controlador {
 
 	public void agregarProducto(int codigo,String nombre,float precio,String proveedor,String categoria, int cantidad){
 		baseTienda.insertarProducto(codigo, nombre, precio, proveedor, categoria, cantidad );
+	}
+	
+	public ArrayList<Categoria> categoria(){
+		return baseTienda.mostrarCategoria();
 	}
 	
 	public ArrayList<Empleado> empleados(){

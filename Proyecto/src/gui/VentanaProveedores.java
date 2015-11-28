@@ -35,7 +35,9 @@ public class VentanaProveedores extends JFrame {
 	private JTable table;
 	private JTextField buscarText;
 	private JTextField nombreText;
-	private JTextField textField_2;
+	private JTextField textFieldDomiciolio;
+	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Create the frame.
@@ -62,7 +64,7 @@ public class VentanaProveedores extends JFrame {
 		
 		JLabel lblNombre = new JLabel("Nombre: ");
 		GridBagConstraints gbc_lblNombre = new GridBagConstraints();
-		gbc_lblNombre.anchor = GridBagConstraints.WEST;
+		gbc_lblNombre.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblNombre.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNombre.gridx = 0;
 		gbc_lblNombre.gridy = 0;
@@ -76,24 +78,6 @@ public class VentanaProveedores extends JFrame {
 		gbc_nombreText.gridy = 0;
 		panel.add(nombreText, gbc_nombreText);
 		nombreText.setColumns(10);
-		
-		JLabel lblIdProveedor = new JLabel("Id proveedor: ");
-		GridBagConstraints gbc_lblIdProveedor = new GridBagConstraints();
-		gbc_lblIdProveedor.anchor = GridBagConstraints.WEST;
-		gbc_lblIdProveedor.insets = new Insets(0, 0, 5, 5);
-		gbc_lblIdProveedor.gridx = 0;
-		gbc_lblIdProveedor.gridy = 1;
-		panel.add(lblIdProveedor, gbc_lblIdProveedor);
-		
-		textField_2 = new JTextField();
-		textField_2.setEnabled(false);
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 1;
-		gbc_textField_2.gridy = 1;
-		panel.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
 		
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener() {
@@ -126,58 +110,63 @@ public class VentanaProveedores extends JFrame {
 				
 			}
 		});
+		
+		JLabel lblDomicilio = new JLabel("Domicilio: ");
+		GridBagConstraints gbc_lblDomicilio = new GridBagConstraints();
+		gbc_lblDomicilio.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblDomicilio.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDomicilio.gridx = 0;
+		gbc_lblDomicilio.gridy = 1;
+		panel.add(lblDomicilio, gbc_lblDomicilio);
+		
+		textFieldDomiciolio = new JTextField();
+		GridBagConstraints gbc_textFieldDomiciolio = new GridBagConstraints();
+		gbc_textFieldDomiciolio.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldDomiciolio.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldDomiciolio.gridx = 1;
+		gbc_textFieldDomiciolio.gridy = 1;
+		panel.add(textFieldDomiciolio, gbc_textFieldDomiciolio);
+		textFieldDomiciolio.setColumns(10);
+		
+		JLabel lblTelefono = new JLabel("Telefono:");
+		GridBagConstraints gbc_lblTelefono = new GridBagConstraints();
+		gbc_lblTelefono.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblTelefono.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTelefono.gridx = 0;
+		gbc_lblTelefono.gridy = 2;
+		panel.add(lblTelefono, gbc_lblTelefono);
+		
+		textField = new JTextField();
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.insets = new Insets(0, 0, 5, 0);
+		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.gridx = 1;
+		gbc_textField.gridy = 2;
+		panel.add(textField, gbc_textField);
+		textField.setColumns(10);
+		
+		JLabel lblCorreo = new JLabel("Correo:");
+		GridBagConstraints gbc_lblCorreo = new GridBagConstraints();
+		gbc_lblCorreo.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblCorreo.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCorreo.gridx = 0;
+		gbc_lblCorreo.gridy = 3;
+		panel.add(lblCorreo, gbc_lblCorreo);
+		
+		textField_1 = new JTextField();
+		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
+		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
+		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_1.gridx = 1;
+		gbc_textField_1.gridy = 3;
+		panel.add(textField_1, gbc_textField_1);
+		textField_1.setColumns(10);
 		GridBagConstraints gbc_btnOk = new GridBagConstraints();
 		gbc_btnOk.insets = new Insets(0, 0, 5, 0);
 		gbc_btnOk.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnOk.gridx = 1;
-		gbc_btnOk.gridy = 2;
+		gbc_btnOk.gridy = 4;
 		panel.add(btnOk, gbc_btnOk);
-		
-		JLabel lblIdProvedorA = new JLabel("Id provedor a eliminar:");
-		GridBagConstraints gbc_lblIdProvedorA = new GridBagConstraints();
-		gbc_lblIdProvedorA.insets = new Insets(0, 0, 5, 5);
-		gbc_lblIdProvedorA.gridx = 0;
-		gbc_lblIdProvedorA.gridy = 4;
-		panel.add(lblIdProvedorA, gbc_lblIdProvedorA);
-		
-		JSpinner eliminarSpinner = new JSpinner();
-		GridBagConstraints gbc_eliminarSpinner = new GridBagConstraints();
-		gbc_eliminarSpinner.insets = new Insets(0, 0, 5, 0);
-		gbc_eliminarSpinner.fill = GridBagConstraints.HORIZONTAL;
-		gbc_eliminarSpinner.gridx = 1;
-		gbc_eliminarSpinner.gridy = 4;
-		panel.add(eliminarSpinner, gbc_eliminarSpinner);
-		
-		JButton btnOk_1 = new JButton("Ok");
-		btnOk_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ArrayList<Proveedor> productosUno = controlador.proveedores();
-				ArrayList<Proveedor> productosDos = new ArrayList<Proveedor>();
-				
-				for ( Proveedor p: productosUno){
-					if (p.id_proveedor ==Integer.parseInt(buscarText.getText())){
-						productosDos.add(p);
-					}
-				}
-				Object[][] productosParaTablaBuscar = new Object[productosDos.size()][];
-				int i=0;
-				for (Proveedor p: productosDos){
-					productosParaTablaBuscar[i]= new Object[2];
-					productosParaTablaBuscar[i][0]= p.id_proveedor;
-					productosParaTablaBuscar[i][1] = p.nombre;
-					i++;
-				}
-				table.setModel(new DefaultTableModel(productosParaTablaBuscar,			new String[] {
-				"id Producto", "Precio", "id Proveedor", "nombre", "Descripcion"
-			}));
-				table.repaint();
-			}
-		});
-		GridBagConstraints gbc_btnOk_1 = new GridBagConstraints();
-		gbc_btnOk_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnOk_1.gridx = 1;
-		gbc_btnOk_1.gridy = 5;
-		panel.add(btnOk_1, gbc_btnOk_1);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));

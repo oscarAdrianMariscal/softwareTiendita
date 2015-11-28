@@ -32,7 +32,7 @@ public class Conexion {
 	public ArrayList<Producto> mostrarTablaProducto(){
 		ArrayList<Producto> productos = new ArrayList<Producto>();
 		String sql = "select idproducto, nombre, precio, cantidad, p.nombreproveedor, c.categoria from producto inner join proveedor as p on p.idproveedor = producto.idpro"+
-					 "veedor inner join categoriaproducto as c on c.idcategoria = producto.idcategoria";
+					 "veedor inner join categoriaproducto as c on c.idcategoria = producto.idcategoria order by idproducto";
 		try{
 			conexion();
 			Statement st = conex.createStatement();
@@ -124,32 +124,40 @@ public class Conexion {
 			pst.executeUpdate();
 			
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
 	public void insertarProveedor(String nombre, String domicilio, String telefono, String correo){
 		try{
 			conexion();
+			
+			Statement st = conex.createStatement();
+			ResultSet rs = st.executeQuery("SELECT count(idproveedor) as codigo FROM proveedor");
+			int id=0;
+			
+			while (rs.next()) {
+			id = rs.getInt("codigo")+1;
+	    	}
+			
 			String query = " insert into proveedor (idproveedor,nombreproveedor,domicilio,telefono,correo)"
 			        + " values (?, ?, ?, ?, ?)";
 			 
 			PreparedStatement pst = conex.prepareStatement(query);
-			pst.setString(1, "0");
+			pst.setInt(1, id);
 			pst.setString(2, nombre);
 			pst.setString(3, domicilio);
 			pst.setString(4, telefono);
 			pst.setString(5, correo);
 			int consulta = pst.executeUpdate();
 			if (consulta>0){
-//				System.out.println("HEKLADLVJAS");
+				JOptionPane.showMessageDialog(null, "Proveedor agregado");
 			}
 			else{
-			}
-			
-			
+			}	
 		}
 		catch(SQLException ex){
-			System.out.println("ERROR EN METODO insertar proveedor");
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
 		}
 				
 	}
@@ -163,30 +171,48 @@ public class Conexion {
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()){
 				//Obtener los atributos.
-				int id_proveedor =Integer.parseInt(rs.getString("idproveedor"));
 				String nombre = rs.getString("nombreproveedor");
 				String domicilio = rs.getString("domicilio");
 				String telefono = rs.getString("telefono");
 				String correo = rs.getString("correo");
-				Proveedor temp = new Proveedor(id_proveedor,nombre,domicilio,telefono,correo);
+				Proveedor temp = new Proveedor(nombre,domicilio,telefono,correo);
 				proveedores.add(temp);
 			}
 		}
 		catch(SQLException ex){
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
 		}
 		return proveedores;
 	}
 
-	public void eliminarProveedor(int id){
+	public void eliminarProveedor(String proveedor){
 		conexion();
-		String query = "DELETE from proveedor where idProveedor = '"+id+"'";
-		try {
-			PreparedStatement pst = conex.prepareStatement(query);
-			pst.executeUpdate();
-			
-		} catch (SQLException e) {
+		int id=0;
+		String sql = "SELECT idproveedor From proveedor WHERE nombreproveedor ='"+proveedor+"'";
+		try{
+			conexion();
+			Statement st = conex.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()){
+				//Obtener los atributos.
+				id = rs.getInt("idproveedor");
+			}
+			String query = "DELETE from proveedor where idproveedor = '"+id+"'";
+			try {
+				PreparedStatement pst = conex.prepareStatement(query);	
+				int consulta = pst.executeUpdate();
+				if (consulta>0){
+					query = "UPDATE proveedor set idproveedor = idproveedor-1 WHERE idproveedor > "+id;
+					JOptionPane.showMessageDialog(null, "Proveedor eliminado");
+				}
+				else{
+				}		
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, e.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
+			}
+		}catch(SQLException ex){
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
 		}
-		
 	}
 	
 	public void actualizarInventario (int id,int cant){
@@ -217,22 +243,29 @@ public class Conexion {
 				Inventario temp = new Inventario(nombre,id_producto,cantidad);
 				inventario.add(temp);
 			}
-			
 		}
 		catch(SQLException ex){
 		}
 		return inventario;
 	}
 
-	public void insertarEmpleado(int id_empleado, String nombre, String apellido, int salario, String puesto, String horario,
+	public void insertarEmpleado(String nombre, String apellido, int salario, String puesto, String horario,
 			int edad, String telefono, String direccion, String correo) {
 		try{
+			Statement st = conex.createStatement();
+			ResultSet rs = st.executeQuery("SELECT count(idempleado) as codigo FROM empleado");
+			int id=0;
+			
+			while (rs.next()) {
+			id = rs.getInt("codigo")+1;
+	    	}
+			
 			conexion();
 			String query = "insert into empleado (idempleado, nombreempleado, apellidoempleado, salario, puesto, horario, edad, telefono, direccion, correo)"
 			        + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			 
 			PreparedStatement pst = conex.prepareStatement(query);
-			pst.setString(1, "0");
+			pst.setInt(1, id);
 			pst.setString(2, nombre);
 			pst.setString(3, apellido);
 			pst.setString(2, String.valueOf(salario));
@@ -242,30 +275,31 @@ public class Conexion {
 			pst.setString(6, nombre);
 			int consulta = pst.executeUpdate();
 			if (consulta>0){
-//				System.out.println("HEKLADLVJAS");
+				JOptionPane.showMessageDialog(null, "Empelado agregado");
 			}
 			else{
-			}
-			
-			
+			}	
 		}
 		catch(SQLException ex){
-			System.out.println("ERROR EN METODO insertar proveedor");
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
 		}
-		
 	}
 
 	public void eliminarEmpleado(int id) {
 		conexion();
-		String query = "DELETE from empleado where id_empleado = '"+id+"'";
+		String query = "DELETE from empleado where idempleado = '"+id+"'";
 		try {
 			PreparedStatement pst = conex.prepareStatement(query);
-			pst.executeUpdate();
-			
+			int consulta = pst.executeUpdate();
+			if (consulta>0){
+				query = "UPDATE empleado set idempleado = idempleado-1 WHERE idempleado > "+id;
+				JOptionPane.showMessageDialog(null, "Empleado eliminado");
+			}
+			else{
+			}
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
 		}
-
-		
 	}
 
 	public ArrayList<Empleado> mostrarTablaEmpleado() {
@@ -291,16 +325,18 @@ public class Conexion {
 				Empleado temp = new Empleado(id_empleado,nombre,apellido,salario,puesto,horario,edad,telefono,direccion,correo);
 				empleados.add(temp);
 			}
-			
 		}
 		catch(SQLException ex){
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
 		}
 		return empleados;
 	}
 
 	public ArrayList<Ticket> mostrarTablaTickets() {
 		ArrayList<Ticket> tickets= new ArrayList<Ticket>();
-		String sql = "SELECT * From ticket";
+		String sql = "SELECT ticket.idticket, p.nombre, dt.cantidad, fecha, e.nombreemplead o, e.apellidoempleado from ticket "+
+					 "inner join empleado as e on e.idempleado = ticket.idempleado inner join detalleticket as dt on dt.idticket = ticket.idticket"+
+					 "inner join producto as p on p.idproducto = dt.idproducto";
 		try{
 			conexion();
 			Statement st = conex.createStatement();
@@ -309,6 +345,7 @@ public class Conexion {
 				//Obtener los atributos.
 				
 				int id_ticket = Integer.parseInt(rs.getString("id_ticket"));
+				String producto = rs.getString("nombre");
 				String fecha     = rs.getString("fecha");
 				int id_empleado  = Integer.parseInt(rs.getString("id_empleado"));
 				String informacion  = rs.getString("informacion");

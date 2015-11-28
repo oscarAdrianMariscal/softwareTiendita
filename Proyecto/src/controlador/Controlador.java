@@ -28,8 +28,9 @@ public class Controlador {
 		
 	}
 	
-	public void agregarEmpleado(int salario, String horario,String puesto, int edad, String nombre){
-		baseTienda.insertarEmpleado(salario, horario,puesto, edad, nombre);
+	public void agregarEmpleado(String nombre, String apellido, int salario, String puesto, String horario,
+			int edad, String telefono, String direccion, String correo){
+		baseTienda.insertarEmpleado(nombre, apellido,salario,puesto,horario,edad,telefono,direccion,correo);
 	}
 	
 	public ArrayList<Producto> productos(){
@@ -41,8 +42,8 @@ public class Controlador {
 		
 	}
 	
-	public void agregarProveedor(String nombre){
-		baseTienda.insertarProveedor(nombre);
+	public void agregarProveedor(String nombre, String domicilio, String telefono, String correo){
+		baseTienda.insertarProveedor(nombre, domicilio, telefono, correo);
 		
 	}
 	
@@ -50,8 +51,8 @@ public class Controlador {
 		return baseTienda.mostrarTablaProveedor();
 	}
 	
-	public void eliminarProveedor(int id){
-		baseTienda.eliminarProveedor(id);
+	public void eliminarProveedor(String proveedor){
+		baseTienda.eliminarProveedor(proveedor);
 		
 	}
 	

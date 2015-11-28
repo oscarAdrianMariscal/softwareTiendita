@@ -149,7 +149,7 @@ public class VentanaProducto extends JFrame {
 				
 			}
 			else{
-				int precio = (int)precioSpinner.getValue();
+				float precio = (float)precioSpinner.getValue();
 				int proveedorId = (int)spinnerProveedor.getValue();
 				int cantidad = (int)spinnerCantidad.getValue();
 				

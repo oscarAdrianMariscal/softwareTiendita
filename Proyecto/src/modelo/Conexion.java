@@ -346,12 +346,12 @@ public class Conexion {
 	}
 
 	public void agregarTicket(int id_empleado,String fecha, ArrayList<DetalleProducto> detalle) {
+		int id=0;
 		try{
 			conexion();
 			
 			Statement st = conex.createStatement();
 			ResultSet rs = st.executeQuery("SELECT count(idticket) as codigo FROM ticket");
-			int id=0;
 			
 			while (rs.next()) {
 			id = rs.getInt("codigo")+1;
@@ -364,28 +364,37 @@ public class Conexion {
 			pst.setInt(1, id_empleado);
 			pst.setString(2, fecha);
 			pst.setInt(3, id);
-			
-
-			for (DetalleProducto d : detalle){
-				query = "insert into detalleticket (idempleado,idticket,cantidad)"
-				        + " values (?, ?, ?)";
-				pst = conex.prepareStatement(query);
-				
-				pst.setInt(1, d.idProducto);
-				pst.setInt(2, id);
-				pst.setInt(3, 1);
-			}
-			
 			int consulta = pst.executeUpdate();
 			if (consulta>0){
-				System.out.println("HEKLADLVJAS");
+				JOptionPane.showMessageDialog(null, "Venta Exitosa");
 			}
 			else{
 			}
 		}
 		catch(SQLException ex){
-			System.out.println("ERROR EN METODO insertar proveedor");
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
 		}
+		try{
+		for (DetalleProducto d : detalle){
+			String query = "insert into detalleticket (idproducto,idticket,cantidad)"
+			        + " values (?, ?, ?)";
+			PreparedStatement pst = conex.prepareStatement(query);
+			
+			pst.setInt(1, d.idProducto);
+			pst.setInt(2, id);
+			pst.setInt(3, 1);
+			
+			int consulta = pst.executeUpdate();
+			if (consulta>0){
+				System.out.println("Agrego");
+			}
+			else{
+			}
+		}
+	}
+	catch(SQLException ex){
+		System.out.println(ex.getMessage());
+	}
 	}
 	
 	public ArrayList<Ticket> mostrarTablaTickets() {

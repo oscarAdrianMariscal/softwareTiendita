@@ -26,9 +26,13 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import modelo.Categoria;
 import modelo.Producto;
 import modelo.Proveedor;
 import controlador.Controlador;
+import javax.swing.JTabbedPane;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class VentanaProducto extends JFrame {
 
@@ -45,6 +49,7 @@ public class VentanaProducto extends JFrame {
 	private JTextField textCodigo;
 	private JComboBox comboBox;
 	private JComboBox comboCategoria;
+	private JTextField textCodigoEliminar;
 
 	/**
 	 * Create the frame.
@@ -61,7 +66,7 @@ public class VentanaProducto extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Opciones", TitledBorder.LEFT, TitledBorder.TOP, null, null));
-		contentPane.add(panel, BorderLayout.WEST);
+//		contentPane.add(panel, BorderLayout.EAST);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{0, 0, 0};
 		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -190,8 +195,11 @@ public class VentanaProducto extends JFrame {
 			
 			}
 		});
-		
 		comboCategoria = new JComboBox();
+		ArrayList<Categoria> categorias = controlador.categoria();
+		for (Categoria c: categorias){
+			comboCategoria.addItem(c.categoria);
+		}
 		GridBagConstraints gbc_comboCategoria = new GridBagConstraints();
 		gbc_comboCategoria.insets = new Insets(0, 0, 5, 0);
 		gbc_comboCategoria.fill = GridBagConstraints.HORIZONTAL;
@@ -272,7 +280,7 @@ public class VentanaProducto extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				ArrayList<Producto> productosUno = controlador.productos();
 				ArrayList<Producto> productosDos = new ArrayList<Producto>();
-				
+//				
 				for ( Producto p: productosUno){
 					if (p.id_producto ==Integer.parseInt(buscarText.getText())){
 						productosDos.add(p);
@@ -281,15 +289,18 @@ public class VentanaProducto extends JFrame {
 				Object[][] productosParaTablaBuscar = new Object[productosDos.size()][];
 				int i=0;
 				for (Producto p: productosDos){
-					productosParaTablaBuscar[i]= new Object[5];
+					productosParaTablaBuscar[i]= new Object[6];
 					productosParaTablaBuscar[i][0] =p.id_producto;
-					productosParaTablaBuscar[i][1] =p.precio;
-					productosParaTablaBuscar[i][2] =p.proveedor;
-					productosParaTablaBuscar[i][3] =p.nombre;
+					productosParaTablaBuscar[i][1] =p.nombre;
+					productosParaTablaBuscar[i][2] =p.precio;
+					productosParaTablaBuscar[i][3] =p.proveedor;
+					productosParaTablaBuscar[i][4] =p.categoria;
+					productosParaTablaBuscar[i][5] =p.cantidad;
+					
 					i++;
 				}
 				table.setModel(new DefaultTableModel(productosParaTablaBuscar,			new String[] {
-				"id Producto", "Precio", "id Proveedor", "nombre", "Descripcion"
+				"id Producto", "Nombre", "precio", "proveedor", "categoria", "cantidad"
 			}));
 				table.repaint();
 				
@@ -300,6 +311,57 @@ public class VentanaProducto extends JFrame {
 		gbc_btnBuscar.gridx = 1;
 		gbc_btnBuscar.gridy = 0;
 		panel_2.add(btnBuscar, gbc_btnBuscar);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.add("Agregar",panel);
+		contentPane.add(tabbedPane, BorderLayout.WEST);
+		
+		JPanel panel_3 = new JPanel();
+		tabbedPane.addTab("Eliminar", null, panel_3, null);
+		panel_3.setBorder(new TitledBorder(null, "Opciones", TitledBorder.LEFT, TitledBorder.TOP, null, null));
+		GridBagLayout gbl_panel_3 = new GridBagLayout();
+		gbl_panel_3.columnWidths = new int[]{0, 0, 0};
+		gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_3.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel_3.setLayout(gbl_panel_3);
+		
+		Component verticalStrut = Box.createVerticalStrut(30);
+		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
+		gbc_verticalStrut.insets = new Insets(0, 0, 5, 5);
+		gbc_verticalStrut.gridx = 0;
+		gbc_verticalStrut.gridy = 0;
+		panel_3.add(verticalStrut, gbc_verticalStrut);
+		
+		JLabel label = new JLabel("Codigo:");
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.anchor = GridBagConstraints.WEST;
+		gbc_label.insets = new Insets(0, 0, 5, 5);
+		gbc_label.gridx = 0;
+		gbc_label.gridy = 1;
+		panel_3.add(label, gbc_label);
+		
+		textCodigoEliminar = new JTextField();
+		textCodigoEliminar.setColumns(10);
+		GridBagConstraints gbc_textCodigoEliminar = new GridBagConstraints();
+		gbc_textCodigoEliminar.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textCodigoEliminar.insets = new Insets(0, 0, 5, 0);
+		gbc_textCodigoEliminar.gridx = 1;
+		gbc_textCodigoEliminar.gridy = 1;
+		panel_3.add(textCodigoEliminar, gbc_textCodigoEliminar);
+		
+		JButton button = new JButton("Ok");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controlador.eliminarProducto(Integer.parseInt(textCodigoEliminar.getText()));
+			}
+		});
+		GridBagConstraints gbc_button = new GridBagConstraints();
+		gbc_button.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button.insets = new Insets(0, 0, 5, 0);
+		gbc_button.gridx = 1;
+		gbc_button.gridy = 2;
+		panel_3.add(button, gbc_button);
 	}
 	
 	

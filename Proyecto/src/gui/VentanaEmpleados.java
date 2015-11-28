@@ -42,6 +42,10 @@ public class VentanaEmpleados extends JFrame {
 	private JSpinner salarioSpinner;
 	private JSpinner edadSpinner;
 	private JComboBox puestoCombo;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
 
 	/**
 	 * Create the frame.
@@ -50,7 +54,7 @@ public class VentanaEmpleados extends JFrame {
 		setTitle("Empleados");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
-		setBounds(100, 100, 605, 300);
+		setBounds(100, 100, 605, 332);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -61,9 +65,9 @@ public class VentanaEmpleados extends JFrame {
 		contentPane.add(panel, BorderLayout.WEST);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{0, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		JLabel lblNombre = new JLabel("Nombre: ");
@@ -83,12 +87,29 @@ public class VentanaEmpleados extends JFrame {
 		panel.add(nombreText, gbc_nombreText);
 		nombreText.setColumns(10);
 		
+		JLabel lblApellido = new JLabel("Apellido:");
+		GridBagConstraints gbc_lblApellido = new GridBagConstraints();
+		gbc_lblApellido.anchor = GridBagConstraints.WEST;
+		gbc_lblApellido.insets = new Insets(0, 0, 5, 5);
+		gbc_lblApellido.gridx = 0;
+		gbc_lblApellido.gridy = 1;
+		panel.add(lblApellido, gbc_lblApellido);
+		
+		textField = new JTextField();
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.insets = new Insets(0, 0, 5, 0);
+		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.gridx = 1;
+		gbc_textField.gridy = 1;
+		panel.add(textField, gbc_textField);
+		textField.setColumns(10);
+		
 		JLabel lblHorario = new JLabel("Horario: ");
 		GridBagConstraints gbc_lblHorario = new GridBagConstraints();
 		gbc_lblHorario.anchor = GridBagConstraints.WEST;
 		gbc_lblHorario.insets = new Insets(0, 0, 5, 5);
 		gbc_lblHorario.gridx = 0;
-		gbc_lblHorario.gridy = 1;
+		gbc_lblHorario.gridy = 2;
 		panel.add(lblHorario, gbc_lblHorario);
 		
 		horarioCombo = new JComboBox();
@@ -97,7 +118,7 @@ public class VentanaEmpleados extends JFrame {
 		gbc_horarioCombo.insets = new Insets(0, 0, 5, 0);
 		gbc_horarioCombo.fill = GridBagConstraints.HORIZONTAL;
 		gbc_horarioCombo.gridx = 1;
-		gbc_horarioCombo.gridy = 1;
+		gbc_horarioCombo.gridy = 2;
 		panel.add(horarioCombo, gbc_horarioCombo);
 		
 		JLabel lblSalario = new JLabel("Salario: ");
@@ -105,7 +126,7 @@ public class VentanaEmpleados extends JFrame {
 		gbc_lblSalario.anchor = GridBagConstraints.WEST;
 		gbc_lblSalario.insets = new Insets(0, 0, 5, 5);
 		gbc_lblSalario.gridx = 0;
-		gbc_lblSalario.gridy = 2;
+		gbc_lblSalario.gridy = 3;
 		panel.add(lblSalario, gbc_lblSalario);
 		
 		salarioSpinner = new JSpinner();
@@ -114,7 +135,7 @@ public class VentanaEmpleados extends JFrame {
 		gbc_salarioSpinner.fill = GridBagConstraints.HORIZONTAL;
 		gbc_salarioSpinner.insets = new Insets(0, 0, 5, 0);
 		gbc_salarioSpinner.gridx = 1;
-		gbc_salarioSpinner.gridy = 2;
+		gbc_salarioSpinner.gridy = 3;
 		panel.add(salarioSpinner, gbc_salarioSpinner);
 		
 		JLabel lblEdad = new JLabel("Edad: ");
@@ -122,7 +143,7 @@ public class VentanaEmpleados extends JFrame {
 		gbc_lblEdad.anchor = GridBagConstraints.WEST;
 		gbc_lblEdad.insets = new Insets(0, 0, 5, 5);
 		gbc_lblEdad.gridx = 0;
-		gbc_lblEdad.gridy = 3;
+		gbc_lblEdad.gridy = 4;
 		panel.add(lblEdad, gbc_lblEdad);
 		
 		edadSpinner = new JSpinner();
@@ -131,7 +152,7 @@ public class VentanaEmpleados extends JFrame {
 		gbc_edadSpinner.fill = GridBagConstraints.HORIZONTAL;
 		gbc_edadSpinner.insets = new Insets(0, 0, 5, 0);
 		gbc_edadSpinner.gridx = 1;
-		gbc_edadSpinner.gridy = 3;
+		gbc_edadSpinner.gridy = 4;
 		panel.add(edadSpinner, gbc_edadSpinner);
 		
 		JLabel lblPuesto = new JLabel("Puesto: ");
@@ -139,7 +160,7 @@ public class VentanaEmpleados extends JFrame {
 		gbc_lblPuesto.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPuesto.anchor = GridBagConstraints.WEST;
 		gbc_lblPuesto.gridx = 0;
-		gbc_lblPuesto.gridy = 4;
+		gbc_lblPuesto.gridy = 5;
 		panel.add(lblPuesto, gbc_lblPuesto);
 		
 		puestoCombo = new JComboBox();
@@ -148,8 +169,42 @@ public class VentanaEmpleados extends JFrame {
 		gbc_puestoCombo.insets = new Insets(0, 0, 5, 0);
 		gbc_puestoCombo.fill = GridBagConstraints.HORIZONTAL;
 		gbc_puestoCombo.gridx = 1;
-		gbc_puestoCombo.gridy = 4;
+		gbc_puestoCombo.gridy = 5;
 		panel.add(puestoCombo, gbc_puestoCombo);
+		
+		JLabel lblTelefono = new JLabel("Telefono:");
+		GridBagConstraints gbc_lblTelefono = new GridBagConstraints();
+		gbc_lblTelefono.anchor = GridBagConstraints.WEST;
+		gbc_lblTelefono.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTelefono.gridx = 0;
+		gbc_lblTelefono.gridy = 6;
+		panel.add(lblTelefono, gbc_lblTelefono);
+		
+		textField_1 = new JTextField();
+		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
+		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
+		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_1.gridx = 1;
+		gbc_textField_1.gridy = 6;
+		panel.add(textField_1, gbc_textField_1);
+		textField_1.setColumns(10);
+		
+		JLabel lblDireccin = new JLabel("Dirección:");
+		GridBagConstraints gbc_lblDireccin = new GridBagConstraints();
+		gbc_lblDireccin.anchor = GridBagConstraints.WEST;
+		gbc_lblDireccin.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDireccin.gridx = 0;
+		gbc_lblDireccin.gridy = 7;
+		panel.add(lblDireccin, gbc_lblDireccin);
+		
+		textField_2 = new JTextField();
+		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
+		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
+		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_2.gridx = 1;
+		gbc_textField_2.gridy = 7;
+		panel.add(textField_2, gbc_textField_2);
+		textField_2.setColumns(10);
 		
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener() {
@@ -188,63 +243,28 @@ public class VentanaEmpleados extends JFrame {
 				
 			}
 		});
+		
+		JLabel lblCorreo = new JLabel("Correo:");
+		GridBagConstraints gbc_lblCorreo = new GridBagConstraints();
+		gbc_lblCorreo.anchor = GridBagConstraints.EAST;
+		gbc_lblCorreo.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCorreo.gridx = 0;
+		gbc_lblCorreo.gridy = 8;
+		panel.add(lblCorreo, gbc_lblCorreo);
+		
+		textField_3 = new JTextField();
+		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
+		gbc_textField_3.insets = new Insets(0, 0, 5, 0);
+		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_3.gridx = 1;
+		gbc_textField_3.gridy = 8;
+		panel.add(textField_3, gbc_textField_3);
+		textField_3.setColumns(10);
 		GridBagConstraints gbc_btnOk = new GridBagConstraints();
-		gbc_btnOk.insets = new Insets(0, 0, 5, 0);
 		gbc_btnOk.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnOk.gridx = 1;
-		gbc_btnOk.gridy = 5;
+		gbc_btnOk.gridy = 9;
 		panel.add(btnOk, gbc_btnOk);
-		
-		JLabel lblIdempleadoAEliminar = new JLabel("IdEmpleado a eliminar");
-		GridBagConstraints gbc_lblIdempleadoAEliminar = new GridBagConstraints();
-		gbc_lblIdempleadoAEliminar.insets = new Insets(0, 0, 5, 5);
-		gbc_lblIdempleadoAEliminar.gridx = 0;
-		gbc_lblIdempleadoAEliminar.gridy = 7;
-		panel.add(lblIdempleadoAEliminar, gbc_lblIdempleadoAEliminar);
-		
-		final JSpinner eliminarIdSpinner = new JSpinner();
-		eliminarIdSpinner.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		GridBagConstraints gbc_eliminarIdSpinner = new GridBagConstraints();
-		gbc_eliminarIdSpinner.insets = new Insets(0, 0, 5, 0);
-		gbc_eliminarIdSpinner.fill = GridBagConstraints.HORIZONTAL;
-		gbc_eliminarIdSpinner.gridx = 1;
-		gbc_eliminarIdSpinner.gridy = 7;
-		panel.add(eliminarIdSpinner, gbc_eliminarIdSpinner);
-		
-		JButton btnOk_1 = new JButton("Ok");
-		btnOk_1.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				controlador.eliminarEmpleado((int)eliminarIdSpinner.getValue());
-				ArrayList<Empleado> empleados = controlador.empleados(); 
-				Object[][] empleadosParaTabla= new Object[empleados.size()][];
-				int i=0;
-				for (Empleado c: empleados){
-					empleadosParaTabla[i]= new Object[6];
-					empleadosParaTabla[i][0] =c.id_empleado;
-					empleadosParaTabla[i][1] =c.salario;
-					empleadosParaTabla[i][2] =c.horario;
-					empleadosParaTabla[i][3] =c.puesto;
-					empleadosParaTabla[i][4] =c.edad;
-					empleadosParaTabla[i][5] =c.nombre;
-					i++;
-				}
-				
-				table.setModel(new DefaultTableModel(
-					empleadosParaTabla,
-					new String[] {
-						"id Empleado", "Salario", "Horario", "puesto", "edad", "nombre"
-					}
-				));
-				table.repaint();
-				
-			}
-		});
-		GridBagConstraints gbc_btnOk_1 = new GridBagConstraints();
-		gbc_btnOk_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnOk_1.gridx = 1;
-		gbc_btnOk_1.gridy = 8;
-		panel.add(btnOk_1, gbc_btnOk_1);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));

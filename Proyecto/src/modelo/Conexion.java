@@ -28,6 +28,18 @@ public class Conexion {
 	return conex;
 	}
 	
+	public static String validarNombre(String buscar)
+	{
+		String temp1, temp2;
+		temp1=buscar.substring(0,1);
+		temp1=temp1.toUpperCase();
+		
+		temp2=buscar.substring(1, buscar.length());
+		temp2=temp2.toLowerCase();
+		
+		return buscar=temp1+temp2;
+	}
+	
 	public void insertarProducto(int codigo,String nombre,float precio,String proveedor,String categoria, int cantidad){
 		try{
 			conexion();
@@ -53,7 +65,7 @@ public class Conexion {
 				 
 				PreparedStatement pst = conex.prepareStatement(query);
 				pst.setInt(1, codigo);
-				pst.setString(2, nombre);
+				pst.setString(2, validarNombre(nombre));
 				pst.setFloat(3, precio);
 				pst.setInt(4, idProveedor);
 				pst.setInt(5, idCategoria);
@@ -130,7 +142,7 @@ public class Conexion {
 			 
 			PreparedStatement pst = conex.prepareStatement(query);
 			pst.setInt(1, id);
-			pst.setString(2, categoria);
+			pst.setString(2, validarNombre(categoria));
 			int consulta = pst.executeUpdate();
 			if (consulta>0){
 				JOptionPane.showMessageDialog(null, "Categoria agregada");
@@ -181,7 +193,7 @@ public class Conexion {
 			 
 			PreparedStatement pst = conex.prepareStatement(query);
 			pst.setInt(1, id);
-			pst.setString(2, nombre);
+			pst.setString(2, validarNombre(nombre));
 			pst.setString(3, domicilio);
 			pst.setString(4, telefono);
 			pst.setString(5, correo);
@@ -223,7 +235,7 @@ public class Conexion {
 	public void eliminarProveedor(String proveedor){
 		conexion();
 		int id=0;
-		String sql = "SELECT idproveedor From proveedor WHERE nombreproveedor ='"+proveedor+"'";
+		String sql = "SELECT idproveedor From proveedor WHERE nombreproveedor ='"+validarNombre(proveedor)+"'";
 		try{
 			conexion();
 			Statement st = conex.createStatement();
@@ -267,8 +279,8 @@ public class Conexion {
 			 
 			PreparedStatement pst = conex.prepareStatement(query);
 			pst.setInt(1, id);
-			pst.setString(2, nombre);
-			pst.setString(3, apellido);
+			pst.setString(2, validarNombre(nombre));
+			pst.setString(3, validarNombre(apellido));
 			pst.setString(2, String.valueOf(salario));
 			pst.setString(3, horario);
 			pst.setString(4, puesto);

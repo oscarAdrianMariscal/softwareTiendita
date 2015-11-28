@@ -22,8 +22,8 @@ public class Empleado {
 		this.puesto = puesto;
 		this.horario = horario;
 		this.edad = edad;
-		this.nombre = telefono;
-		this.puesto = direccion;
-		this.puesto = correo;
+		this.telefono = telefono;
+		this.direccion = direccion;
+		this.correo = correo;
 	}
 }

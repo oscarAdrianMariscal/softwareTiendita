@@ -364,6 +364,7 @@ public class Conexion {
 			pst.setInt(1, id_empleado);
 			pst.setString(2, fecha);
 			pst.setInt(3, id);
+			
 
 			for (DetalleProducto d : detalle){
 				query = "insert into detalleticket (idempleado,idticket,cantidad)"
@@ -371,8 +372,8 @@ public class Conexion {
 				pst = conex.prepareStatement(query);
 				
 				pst.setInt(1, d.idProducto);
-				pst.setInt(2, d.idTicket);
-				pst.setInt(3, d.cantidad);
+				pst.setInt(2, id);
+				pst.setInt(3, 1);
 			}
 			
 			int consulta = pst.executeUpdate();
@@ -406,7 +407,7 @@ public class Conexion {
 				String informacion  = rs.getString("informacion");
 				
 				
-				Ticket temp = new Ticket(id_ticket,fecha,id_empleado,informacion);
+				Ticket temp = new Ticket(id_ticket,fecha,id_empleado);
 				tickets.add(temp);
 			}
 			

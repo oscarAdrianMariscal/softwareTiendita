@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -8,9 +9,12 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -21,15 +25,18 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
+import modelo.Producto;
 import controlador.Controlador;
-import java.awt.Color;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -39,10 +46,12 @@ public class VentanaPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
+	
 	/**
 	 * Create the frame.
 	 */
 	public VentanaPrincipal(final Controlador controlador) {
+		final ArrayList<Producto>productos = controlador.productos();
 		setTitle("Ventana Principal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
@@ -119,9 +128,9 @@ public class VentanaPrincipal extends JFrame {
 		panel_4.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_1.add(panel_4, BorderLayout.NORTH);
 		GridBagLayout gbl_panel_4 = new GridBagLayout();
-		gbl_panel_4.columnWidths = new int[]{0, 0, 0};
+		gbl_panel_4.columnWidths = new int[]{0, 0, 0, 0};
 		gbl_panel_4.rowHeights = new int[]{0, 0};
-		gbl_panel_4.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_4.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_4.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_4.setLayout(gbl_panel_4);
 		
@@ -133,8 +142,29 @@ public class VentanaPrincipal extends JFrame {
 		gbc_lblBuscar.gridy = 0;
 		panel_4.add(lblBuscar, gbc_lblBuscar);
 		
-		textField = new JTextField();
+		 textField = new JTextField();
+//		final ArrayList<Producto> productos = controlador.productos();
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER){
+					for (Producto p : productos){
+						if (p.nombre.equals(textField.getText())){
+							
+						}
+					}
+					textField.setText("");
+
+				}
+			}
+		});
+//		private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {
+//			  if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+//			      // Enter was pressed. Your code goes here.
+//			   }
+//			} 
 		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.insets = new Insets(0, 0, 0, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 0;
@@ -151,6 +181,19 @@ public class VentanaPrincipal extends JFrame {
 		JButton btnCobrar = new JButton("Cobrar");
 		btnCobrar.setVerticalAlignment(SwingConstants.BOTTOM);
 		panel_5.add(btnCobrar);
+		
+		Object [][]productosParaTabla = new Object [0][];
+		JTable tablaDeProductos = new JTable(); 
+		tablaDeProductos.setModel(new DefaultTableModel(
+				productosParaTabla,
+				new String[] {
+					"Código", "Nombre", "precio", "proveedor", "Categoria"
+				}
+			));
+		
+//		panel_1.add(, BorderLayout.CENTER);
+		panel_1.add(new JScrollPane(tablaDeProductos), BorderLayout.CENTER);
+		
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -192,3 +235,4 @@ public class VentanaPrincipal extends JFrame {
 	}
 
 }
+

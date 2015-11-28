@@ -92,7 +92,7 @@ public class VentanaProveedores extends JFrame {
 					Object[][] proveedoresParaTabla= new Object[proveedores.size()][];
 					int i =0;
 					for (Proveedor p : proveedores){
-						proveedoresParaTabla[i]= new Object[2];
+						proveedoresParaTabla[i]= new Object[4];
 						proveedoresParaTabla[i][0]= p.nombre;
 						proveedoresParaTabla[i][1] = p.domicilio;
 						proveedoresParaTabla[i][2] = p.telefono;

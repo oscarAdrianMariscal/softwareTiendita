@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -35,6 +36,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import modelo.DetalleProducto;
+import modelo.Empleado;
 import modelo.Producto;
 import controlador.Controlador;
 
@@ -63,7 +66,7 @@ public class VentanaPrincipal extends JFrame {
 		return buscar=temp1+temp2;
 	}
 	
-	public VentanaPrincipal(final Controlador controlador) {
+	public VentanaPrincipal(final Controlador controlador, final Empleado empleadoACargo) {
 		final ArrayList<Producto>productos = new ArrayList<Producto>();
 		Image tienda = new ImageIcon(this.getClass().getResource("/tienda.png")).getImage();
 		BufferedImage myPicture = null;
@@ -241,6 +244,17 @@ public class VentanaPrincipal extends JFrame {
 				for (Producto p : productos){
 					precioTotal+=p.precio;
 				}
+				// Deprecated
+				java.util.Date fecha = new Date();
+				String informacion =fecha.getDay()+ "/"+fecha.getMonth()+"/" +"15"; 
+				System.out.println(informacion);
+				ArrayList<DetalleProducto> detalles = new ArrayList<>();
+				for (Producto producto : productos) {
+					DetalleProducto a = new DetalleProducto(producto.id_producto);
+					detalles.add(a);
+				}
+				
+				controlador.ingresarTicket(empleadoACargo.id_empleado, informacion, detalles);
 				new VentanaCobro(String.valueOf(precioTotal));
 			}
 		});
@@ -267,9 +281,58 @@ public class VentanaPrincipal extends JFrame {
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Empleado", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.add(panel_3, BorderLayout.SOUTH);
+		GridBagLayout gbl_panel_3 = new GridBagLayout();
+		gbl_panel_3.columnWidths = new int[]{0, 0, 0};
+		gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_panel_3.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel_3.setLayout(gbl_panel_3);
+		
+		JLabel lblNombre = new JLabel("Nombre: ");
+		GridBagConstraints gbc_lblNombre = new GridBagConstraints();
+		gbc_lblNombre.anchor = GridBagConstraints.WEST;
+		gbc_lblNombre.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNombre.gridx = 0;
+		gbc_lblNombre.gridy = 0;
+		panel_3.add(lblNombre, gbc_lblNombre);
+		
+		JLabel label_1 = new JLabel(empleadoACargo.nombre);
+		GridBagConstraints gbc_label_1 = new GridBagConstraints();
+		gbc_label_1.insets = new Insets(0, 0, 5, 0);
+		gbc_label_1.gridx = 1;
+		gbc_label_1.gridy = 0;
+		panel_3.add(label_1, gbc_label_1);
+		
+		JLabel lblApellido = new JLabel("Apellido: ");
+		GridBagConstraints gbc_lblApellido = new GridBagConstraints();
+		gbc_lblApellido.anchor = GridBagConstraints.WEST;
+		gbc_lblApellido.insets = new Insets(0, 0, 5, 5);
+		gbc_lblApellido.gridx = 0;
+		gbc_lblApellido.gridy = 1;
+		panel_3.add(lblApellido, gbc_lblApellido);
+		
+		JLabel lblNewLabel = new JLabel(empleadoACargo.apellido);
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNewLabel.gridx = 1;
+		gbc_lblNewLabel.gridy = 1;
+		panel_3.add(lblNewLabel, gbc_lblNewLabel);
+		
+		JLabel lblCargo = new JLabel("Cargo:");
+		GridBagConstraints gbc_lblCargo = new GridBagConstraints();
+		gbc_lblCargo.insets = new Insets(0, 0, 0, 5);
+		gbc_lblCargo.gridx = 0;
+		gbc_lblCargo.gridy = 2;
+		panel_3.add(lblCargo, gbc_lblCargo);
+		
+		JLabel lblNewLabel_1 = new JLabel(empleadoACargo.puesto);
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.gridx = 1;
+		gbc_lblNewLabel_1.gridy = 2;
+		panel_3.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
 		Component horizontalStrut = Box.createHorizontalStrut(50);
-		panel_3.add(horizontalStrut);
+		panel.add(horizontalStrut, BorderLayout.CENTER);
 		btnTickets.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new VentanaTicket(controlador);

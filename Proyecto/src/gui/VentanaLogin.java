@@ -150,14 +150,20 @@ public class VentanaLogin extends JFrame {
 		panel.add(passwordField, gbc_passwordField);
 		
 		btnOk = new JButton("Ok");
-		ArrayList<Empleado>empleados =  controlador.empleados();
+		final ArrayList<Empleado>empleados =  controlador.empleados();
 		for (Empleado empleado : empleados) {
 			comboUsuarios.addItem(empleado.nombre); 
 		}
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
-				new VentanaPrincipal(controlador);
+				String nombre = comboUsuarios.getSelectedItem().toString();
+				Empleado emp = null;
+				for (Empleado empleado : empleados) {
+					if (empleado.nombre.equals(nombre)){
+						emp=empleado;
+					}
+				}
+				new VentanaPrincipal(controlador,emp);
 				dispose();
 			}
 

@@ -236,7 +236,6 @@ public class Conexion {
 		conexion();
 		int id=0;
 		String sql = "SELECT idproveedor From proveedor WHERE nombreproveedor ='"+proveedor+"'";
-		System.out.println(proveedor);
 		try{
 			conexion();
 			Statement st = conex.createStatement();
@@ -245,7 +244,6 @@ public class Conexion {
 				//Obtener los atributos.
 				id = rs.getInt("idproveedor");
 			}
-			System.out.println(id);
 			String query = "DELETE from proveedor where idproveedor = '"+id+"'";
 			try {
 				PreparedStatement pst = conex.prepareStatement(query);	
@@ -283,10 +281,10 @@ public class Conexion {
 			pst.setInt(1, id);
 			pst.setString(2, validarNombre(nombre));
 			pst.setString(3, validarNombre(apellido));
-			pst.setString(4, String.valueOf(salario));
+			pst.setInt(4, salario);
 			pst.setString(5, puesto);
 			pst.setString(6, horario);
-			pst.setString(7, String.valueOf(edad));
+			pst.setInt(7, edad);
 			pst.setString(8, telefono);
 			pst.setString(9, direccion);
 			pst.setString(10, correo);
@@ -314,7 +312,7 @@ public class Conexion {
 				int id_empleado = Integer.parseInt(rs.getString("idempleado"));
 				String nombre   = rs.getString("nombreempleado");
 				String apellido   = rs.getString("apellidoempleado");
-				float salario     = rs.getFloat("salario");
+				int salario     = rs.getInt("salario");
 				String puesto   = rs.getString("puesto");
 				String horario  = rs.getString("horario");
 				int edad        = Integer.parseInt(rs.getString("edad"));

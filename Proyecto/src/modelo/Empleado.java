@@ -12,7 +12,7 @@ public class Empleado {
 	public String direccion;
 	public String correo;
 	
-	public Empleado(int id_empleado, String nombre, String apellido, float salario, String puesto, String horario,
+	public Empleado(int id_empleado, String nombre, String apellido, int salario, String puesto, String horario,
 			int edad, String telefono, String direccion, String correo) {
 		super();
 		this.id_empleado = id_empleado;

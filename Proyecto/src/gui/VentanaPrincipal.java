@@ -50,6 +50,19 @@ public class VentanaPrincipal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
+	public static String validarNombre(String buscar)
+	{
+		String temp1, temp2;
+		temp1=buscar.substring(0,1);
+		temp1=temp1.toUpperCase();
+		
+		temp2=buscar.substring(1, buscar.length());
+		temp2=temp2.toLowerCase();
+		
+		return buscar=temp1+temp2;
+	}
+	
 	public VentanaPrincipal(final Controlador controlador) {
 		final ArrayList<Producto>productos = new ArrayList<Producto>();
 		Image tienda = new ImageIcon(this.getClass().getResource("/tienda.png")).getImage();
@@ -152,13 +165,13 @@ public class VentanaPrincipal extends JFrame {
 		
 		 textField = new JTextField();
 //		final ArrayList<Producto> productos = controlador.productos();
-//		 ArrayList<Producto> productos = new ArrayList<Producto> ();
+//		ArrayList<Producto> productos = new ArrayList<Producto> ();
 		Object [][]productosParaTabla = new Object [0][];
 		final JTable tablaDeProductos = new JTable(); 
 		tablaDeProductos.setModel(new DefaultTableModel(
 				productosParaTabla,
 				new String[] {
-					"Código", "Nombre", "precio", "proveedor", "Categoria"
+					"Código", "Nombre", "precio"
 				}
 			));
 		
@@ -171,25 +184,21 @@ public class VentanaPrincipal extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER){
 					for (Producto p : totalidadDeProducots){
-						if (p.nombre.equals(textField.getText())){
+						if (p.nombre.equalsIgnoreCase(textField.getText())){
 							textField.setText("");
 							productos.add(p);
 							
 							Object[][] productosParaTablaBuscar = new Object[productos.size()][];
 							int i=0;
 							for (Producto pro: productos){
-								productosParaTablaBuscar[i]= new Object[6];
+								productosParaTablaBuscar[i]= new Object[3];
 								productosParaTablaBuscar[i][0] =pro.id_producto;
 								productosParaTablaBuscar[i][1] =pro.nombre;
 								productosParaTablaBuscar[i][2] =pro.precio;
-								productosParaTablaBuscar[i][3] =pro.proveedor;
-								productosParaTablaBuscar[i][4] =pro.categoria;
-								productosParaTablaBuscar[i][5] =pro.cantidad;
-								
 								i++;
 							}
 							tablaDeProductos.setModel(new DefaultTableModel(productosParaTablaBuscar,			new String[] {
-									"Código", "Nombre", "precio", "proveedor", "Categoria","Cantidad"
+									"Código", "Nombre", "precio"
 						}));
 							tablaDeProductos.repaint();
 								    

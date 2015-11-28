@@ -25,6 +25,7 @@ import javax.swing.border.EmptyBorder;
 
 import controlador.Controlador;
 import modelo.Empleado;
+import javax.swing.JComboBox;
 
 public class VentanaLogin extends JFrame {
 
@@ -33,13 +34,13 @@ public class VentanaLogin extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField nombreText;
 	private JButton btnOk;
 	private Component verticalStrut;
 	private Component horizontalStrut;
 	private Component horizontalStrut_1;
 	private JPasswordField passwordField;
 	static public Controlador controlador= new Controlador();
+	private JComboBox comboUsuarios;
 
 	/**
 	 * Launch the application.
@@ -117,14 +118,13 @@ public class VentanaLogin extends JFrame {
 		gbc_lblUsuario.gridy = 1;
 		panel.add(lblUsuario, gbc_lblUsuario);
 		
-		nombreText = new JTextField();
-		GridBagConstraints gbc_nombreText = new GridBagConstraints();
-		gbc_nombreText.insets = new Insets(0, 0, 5, 0);
-		gbc_nombreText.fill = GridBagConstraints.HORIZONTAL;
-		gbc_nombreText.gridx = 2;
-		gbc_nombreText.gridy = 1;
-		panel.add(nombreText, gbc_nombreText);
-		nombreText.setColumns(10);
+		comboUsuarios = new JComboBox();
+		GridBagConstraints gbc_comboUsuarios = new GridBagConstraints();
+		gbc_comboUsuarios.insets = new Insets(0, 0, 5, 0);
+		gbc_comboUsuarios.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboUsuarios.gridx = 2;
+		gbc_comboUsuarios.gridy = 1;
+		panel.add(comboUsuarios, gbc_comboUsuarios);
 		
 		horizontalStrut_1 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_1 = new GridBagConstraints();
@@ -150,30 +150,18 @@ public class VentanaLogin extends JFrame {
 		panel.add(passwordField, gbc_passwordField);
 		
 		btnOk = new JButton("Ok");
+		ArrayList<Empleado>empleados =  controlador.empleados();
+		for (Empleado empleado : empleados) {
+			comboUsuarios.addItem(empleado.nombre); 
+		}
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-//				if(nombreText.getText().isEmpty()){
-//					JOptionPane.showMessageDialog(null, "Nombre de usuario vacio");
-//				}
-//				else if(passwordField.getPassword().length == 0){
-//					JOptionPane.showMessageDialog(null, "Password vacio");
-//				}
-//				else{
-//					ArrayList<Empleado> empleados = controlador.empleados();
-//					for (Empleado e: empleados){
-//						if (e.nombre.equals(nombreText.getText()) ){
-							new VentanaPrincipal(controlador);
-							dispose();
-//						}
-//						else{
-							
-//						}
-						
-					}
-					
-//				}
-				
-//			}
+
+				new VentanaPrincipal(controlador);
+				dispose();
+			}
+
+
 		});
 		
 		btnOk.setVerticalAlignment(SwingConstants.BOTTOM);

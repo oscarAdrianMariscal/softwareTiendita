@@ -40,12 +40,12 @@ public class Conexion {
 				idCategoria = rs.getInt("idcategoria");
 			}
 			
-			Statement st2 = conex.createStatement();
-			ResultSet rs2 = st2.executeQuery("Select * FROM proveedor where nombreproveedor = '"+proveedor+"'");
+			st = conex.createStatement();
+			rs = st.executeQuery("Select * FROM proveedor where nombreproveedor = '"+proveedor+"'");
 			
-			while(rs2.next())
+			while(rs.next())
 			{
-				idProveedor = rs2.getInt("idproveedor");
+				idProveedor = rs.getInt("idproveedor");
 			}
 			
 				String query = " insert into producto (idproducto,nombre,precio,idproveedor,idcategoria,cantidad)"

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import modelo.Categoria;
 import modelo.Conexion;
 import modelo.Empleado;
-import modelo.Inventario;
 import modelo.Producto;
 import modelo.Proveedor;
 import modelo.Ticket;
@@ -21,31 +20,16 @@ public class Controlador {
 		baseTienda.insertarProducto(codigo, nombre, precio, proveedor, categoria, cantidad );
 	}
 	
-	public ArrayList<Categoria> categoria(){
-		return baseTienda.mostrarCategoria();
-	}
-	
-	public ArrayList<Empleado> empleados(){
-		return baseTienda.mostrarTablaEmpleado();
-	}
-	
-	public void eliminarEmpleado(int id){
-		baseTienda.eliminarEmpleado(id);
-		
-	}
-	
-	public void agregarEmpleado(String nombre, String apellido, int salario, String puesto, String horario,
-			int edad, String telefono, String direccion, String correo){
-		baseTienda.insertarEmpleado(nombre, apellido,salario,puesto,horario,edad,telefono,direccion,correo);
-	}
-	
 	public ArrayList<Producto> productos(){
 		return baseTienda.mostrarTablaProducto();
 	}
 	
 	public void eliminarProducto(int id){
 		baseTienda.eliminarProducto(id);
-		
+	}
+	
+	public ArrayList<Categoria> categoria(){
+		return baseTienda.mostrarCategoria();
 	}
 	
 	public void agregarProveedor(String nombre, String domicilio, String telefono, String correo){
@@ -59,15 +43,20 @@ public class Controlador {
 	
 	public void eliminarProveedor(String proveedor){
 		baseTienda.eliminarProveedor(proveedor);
+	}
+	
+	public void agregarEmpleado(String nombre, String apellido, int salario, String puesto, String horario,
+			int edad, String telefono, String direccion, String correo){
+		baseTienda.insertarEmpleado(nombre, apellido,salario,puesto,horario,edad,telefono,direccion,correo);
+	}
+	
+	public ArrayList<Empleado> empleados(){
+		return baseTienda.mostrarTablaEmpleado();
+	}
+	
+	public void eliminarEmpleado(int id){
+		baseTienda.eliminarEmpleado(id);
 		
-	}
-	
-	public void actualizarInventario(int id,int cant){
-		baseTienda.actualizarInventario(id,cant);
-	}
-	
-	public ArrayList<Inventario> inventarios (){
-		return baseTienda.mostrarTablaInventario();
 	}
 	
 	public ArrayList<Ticket> tickets (){

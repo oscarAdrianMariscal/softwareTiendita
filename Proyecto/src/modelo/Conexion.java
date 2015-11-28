@@ -29,53 +29,6 @@ public class Conexion {
 	return conex;
 	}
 	
-	public ArrayList<Producto> mostrarTablaProducto(){
-		ArrayList<Producto> productos = new ArrayList<Producto>();
-		String sql = "select idproducto, nombre, precio, cantidad, p.nombreproveedor, c.categoria from producto inner join proveedor as p on p.idproveedor = producto.idpro"+
-					 "veedor inner join categoriaproducto as c on c.idcategoria = producto.idcategoria order by idproducto";
-		try{
-			conexion();
-			Statement st = conex.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			while (rs.next()){
-				//Obtener los atributos.
-				int id_producto =Integer.parseInt(rs.getString("idproducto"));
-				String nombre =rs.getString("nombre");
-				float precio=rs.getFloat("precio");
-				String proveedor = rs.getString("nombreproveedor");
-				String categoria = rs.getString("categoria");
-				int cantidad = Integer.parseInt(rs.getString("cantidad"));
-				Producto temp = new Producto(id_producto,nombre,precio, proveedor,categoria,cantidad);
-				productos.add(temp);
-			}	
-		}
-		catch(SQLException ex){
-			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
-		}
-		return productos;
-	}
-	
-	public ArrayList<Categoria> mostrarCategoria(){
-		ArrayList<Categoria> categoria = new ArrayList<Categoria>();
-		String sql = "Select * FROM categoriaproducto";
-		try{
-			conexion();
-			Statement st = conex.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			while (rs.next()){
-				//Obtener los atributos.
-				int id_categoria =rs.getInt("idcategoria");
-				String nombre =rs.getString("categoria");
-				Categoria temp = new Categoria(id_categoria,nombre);
-				categoria.add(temp);
-			}	
-		}
-		catch(SQLException ex){
-			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
-		}
-		return categoria;
-	}
-	
 	public void insertarProducto(int codigo,String nombre,float precio,String proveedor,String categoria, int cantidad){
 		try{
 			conexion();
@@ -137,6 +90,32 @@ public class Conexion {
 		}		
 	}
 	
+	public ArrayList<Producto> mostrarTablaProducto(){
+		ArrayList<Producto> productos = new ArrayList<Producto>();
+		String sql = "select idproducto, nombre, precio, cantidad, p.nombreproveedor, c.categoria from producto inner join proveedor as p on p.idproveedor = producto.idpro"+
+					 "veedor inner join categoriaproducto as c on c.idcategoria = producto.idcategoria order by idproducto";
+		try{
+			conexion();
+			Statement st = conex.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()){
+				//Obtener los atributos.
+				int id_producto =Integer.parseInt(rs.getString("idproducto"));
+				String nombre =rs.getString("nombre");
+				float precio=rs.getFloat("precio");
+				String proveedor = rs.getString("nombreproveedor");
+				String categoria = rs.getString("categoria");
+				int cantidad = Integer.parseInt(rs.getString("cantidad"));
+				Producto temp = new Producto(id_producto,nombre,precio, proveedor,categoria,cantidad);
+				productos.add(temp);
+			}	
+		}
+		catch(SQLException ex){
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
+		}
+		return productos;
+	}
+	
 	public void eliminarProducto(int id){
 		conexion();
 		String query = "DELETE from producto where idproducto = '"+id+"'";
@@ -147,6 +126,57 @@ public class Conexion {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	public void insertarCategoria(String categoria){
+		try{
+			conexion();
+			
+			Statement st = conex.createStatement();
+			ResultSet rs = st.executeQuery("SELECT count(idcategoria) as codigo FROM categoriaproductos");
+			int id=0;
+			
+			while (rs.next()) {
+			id = rs.getInt("codigo")+1;
+	    	}
+			
+			String query = " insert into categoriaproductos (idcategoria,categoria)"
+			        + " values (?, ?)";
+			 
+			PreparedStatement pst = conex.prepareStatement(query);
+			pst.setInt(1, id);
+			pst.setString(2, categoria);
+			int consulta = pst.executeUpdate();
+			if (consulta>0){
+				JOptionPane.showMessageDialog(null, "Categoria agregada");
+			}
+			else{
+			}	
+		}
+		catch(SQLException ex){
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
+		}		
+	}
+	
+	public ArrayList<Categoria> mostrarCategoria(){
+		ArrayList<Categoria> categoria = new ArrayList<Categoria>();
+		String sql = "Select * FROM categoriaproducto";
+		try{
+			conexion();
+			Statement st = conex.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()){
+				//Obtener los atributos.
+				int id_categoria =rs.getInt("idcategoria");
+				String nombre =rs.getString("categoria");
+				Categoria temp = new Categoria(id_categoria,nombre);
+				categoria.add(temp);
+			}	
+		}
+		catch(SQLException ex){
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
+		}
+		return categoria;
 	}
 	
 	public void insertarProveedor(String nombre, String domicilio, String telefono, String correo){
@@ -179,8 +209,7 @@ public class Conexion {
 		}
 		catch(SQLException ex){
 			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
-		}
-				
+		}		
 	}
 	
 	public ArrayList<Proveedor> mostrarTablaProveedor(){
@@ -235,40 +264,6 @@ public class Conexion {
 			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
-	public void actualizarInventario (int id,int cant){
-		String query = "UPDATE inventario SET cantidad =? "
-				+"WHERE id_producto = ?";
-		try {
-			PreparedStatement pst = conex.prepareStatement(query);
-			pst.setString(1, String.valueOf(cant));
-			pst.setString(2, String.valueOf(id));
-			pst.executeUpdate();
-		} catch (SQLException e) {
-			//e.printStackTrace();
-		}
-	}
-	
-	public ArrayList<Inventario> mostrarTablaInventario(){
-		ArrayList<Inventario> inventario = new ArrayList<Inventario>();
-		String sql = "SELECT nombre, cantidad ,inventario.id_producto FROM inventario LEFT JOIN  producto  on inventario.id_producto = producto.id_producto";
-		try{
-			conexion();
-			Statement st = conex.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			while (rs.next()){
-				//Obtener los atributos.
-				int id_producto = Integer.parseInt(rs.getString("id_producto"));
-				String nombre = rs.getString("nombre");
-				int cantidad = Integer.parseInt(rs.getString("cantidad"));
-				Inventario temp = new Inventario(nombre,id_producto,cantidad);
-				inventario.add(temp);
-			}
-		}
-		catch(SQLException ex){
-		}
-		return inventario;
-	}
 
 	public void insertarEmpleado(String nombre, String apellido, int salario, String puesto, String horario,
 			int edad, String telefono, String direccion, String correo) {
@@ -305,24 +300,7 @@ public class Conexion {
 			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
-	public void eliminarEmpleado(int id) {
-		conexion();
-		String query = "DELETE from empleado where idempleado = '"+id+"'";
-		try {
-			PreparedStatement pst = conex.prepareStatement(query);
-			int consulta = pst.executeUpdate();
-			if (consulta>0){
-				query = "UPDATE empleado set idempleado = idempleado-1 WHERE idempleado > "+id;
-				JOptionPane.showMessageDialog(null, "Empleado eliminado");
-			}
-			else{
-			}
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
+	
 	public ArrayList<Empleado> mostrarTablaEmpleado() {
 		ArrayList<Empleado> empleados = new ArrayList<Empleado>();
 		String sql = "SELECT * From empleado";
@@ -353,33 +331,21 @@ public class Conexion {
 		return empleados;
 	}
 
-	public ArrayList<Ticket> mostrarTablaTickets() {
-		ArrayList<Ticket> tickets= new ArrayList<Ticket>();
-		String sql = "SELECT ticket.idticket, p.nombre, dt.cantidad, fecha, e.nombreemplead o, e.apellidoempleado from ticket "+
-					 "inner join empleado as e on e.idempleado = ticket.idempleado inner join detalleticket as dt on dt.idticket = ticket.idticket"+
-					 "inner join producto as p on p.idproducto = dt.idproducto";
-		try{
-			conexion();
-			Statement st = conex.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			while (rs.next()){
-				//Obtener los atributos.
-				
-				int id_ticket = Integer.parseInt(rs.getString("id_ticket"));
-				String producto = rs.getString("nombre");
-				String fecha     = rs.getString("fecha");
-				int id_empleado  = Integer.parseInt(rs.getString("id_empleado"));
-				String informacion  = rs.getString("informacion");
-				
-				
-				Ticket temp = new Ticket(id_ticket,fecha,id_empleado,informacion);
-				tickets.add(temp);
+	public void eliminarEmpleado(int id) {
+		conexion();
+		String query = "DELETE from empleado where idempleado = '"+id+"'";
+		try {
+			PreparedStatement pst = conex.prepareStatement(query);
+			int consulta = pst.executeUpdate();
+			if (consulta>0){
+				query = "UPDATE empleado set idempleado = idempleado-1 WHERE idempleado > "+id;
+				JOptionPane.showMessageDialog(null, "Empleado eliminado");
 			}
-			
+			else{
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
 		}
-		catch(SQLException ex){
-		}
-		return tickets;
 	}
 
 	public void agregarTicket(int id_empleado,String informacion) {
@@ -408,8 +374,33 @@ public class Conexion {
 		
 	}
 	
+	public ArrayList<Ticket> mostrarTablaTickets() {
+		ArrayList<Ticket> tickets= new ArrayList<Ticket>();
+		String sql = "SELECT ticket.idticket, p.nombre, dt.cantidad, fecha, e.nombreemplead o, e.apellidoempleado from ticket "+
+					 "inner join empleado as e on e.idempleado = ticket.idempleado inner join detalleticket as dt on dt.idticket = ticket.idticket"+
+					 "inner join producto as p on p.idproducto = dt.idproducto";
+		try{
+			conexion();
+			Statement st = conex.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()){
+				//Obtener los atributos.
+				
+				int id_ticket = Integer.parseInt(rs.getString("id_ticket"));
+				String producto = rs.getString("nombre");
+				String fecha     = rs.getString("fecha");
+				int id_empleado  = Integer.parseInt(rs.getString("id_empleado"));
+				String informacion  = rs.getString("informacion");
+				
+				
+				Ticket temp = new Ticket(id_ticket,fecha,id_empleado,informacion);
+				tickets.add(temp);
+			}
+			
+		}
+		catch(SQLException ex){
+		}
+		return tickets;
+	}
+	
 }
-	
-
-	
-	

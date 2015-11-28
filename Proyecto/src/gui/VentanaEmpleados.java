@@ -42,10 +42,10 @@ public class VentanaEmpleados extends JFrame {
 	private JSpinner salarioSpinner;
 	private JSpinner edadSpinner;
 	private JComboBox puestoCombo;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField apellidoText;
+	private JTextField telefonoText;
+	private JTextField direccionText;
+	private JTextField correoText;
 
 	/**
 	 * Create the frame.
@@ -95,14 +95,14 @@ public class VentanaEmpleados extends JFrame {
 		gbc_lblApellido.gridy = 1;
 		panel.add(lblApellido, gbc_lblApellido);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 0);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 1;
-		panel.add(textField, gbc_textField);
-		textField.setColumns(10);
+		apellidoText = new JTextField();
+		GridBagConstraints gbc_apellidoText = new GridBagConstraints();
+		gbc_apellidoText.insets = new Insets(0, 0, 5, 0);
+		gbc_apellidoText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_apellidoText.gridx = 1;
+		gbc_apellidoText.gridy = 1;
+		panel.add(apellidoText, gbc_apellidoText);
+		apellidoText.setColumns(10);
 		
 		JLabel lblHorario = new JLabel("Horario: ");
 		GridBagConstraints gbc_lblHorario = new GridBagConstraints();
@@ -180,14 +180,14 @@ public class VentanaEmpleados extends JFrame {
 		gbc_lblTelefono.gridy = 6;
 		panel.add(lblTelefono, gbc_lblTelefono);
 		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 1;
-		gbc_textField_1.gridy = 6;
-		panel.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		telefonoText = new JTextField();
+		GridBagConstraints gbc_telefonoText = new GridBagConstraints();
+		gbc_telefonoText.insets = new Insets(0, 0, 5, 0);
+		gbc_telefonoText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_telefonoText.gridx = 1;
+		gbc_telefonoText.gridy = 6;
+		panel.add(telefonoText, gbc_telefonoText);
+		telefonoText.setColumns(10);
 		
 		JLabel lblDireccin = new JLabel("Dirección:");
 		GridBagConstraints gbc_lblDireccin = new GridBagConstraints();
@@ -197,14 +197,14 @@ public class VentanaEmpleados extends JFrame {
 		gbc_lblDireccin.gridy = 7;
 		panel.add(lblDireccin, gbc_lblDireccin);
 		
-		textField_2 = new JTextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 1;
-		gbc_textField_2.gridy = 7;
-		panel.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		direccionText = new JTextField();
+		GridBagConstraints gbc_direccionText = new GridBagConstraints();
+		gbc_direccionText.insets = new Insets(0, 0, 5, 0);
+		gbc_direccionText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_direccionText.gridx = 1;
+		gbc_direccionText.gridy = 7;
+		panel.add(direccionText, gbc_direccionText);
+		direccionText.setColumns(10);
 		
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener() {
@@ -214,28 +214,38 @@ public class VentanaEmpleados extends JFrame {
 					
 				}
 				else{
-					controlador.agregarEmpleado((int)salarioSpinner.getValue(), 
-							horarioCombo.getSelectedItem().toString(), 
-							puestoCombo.getSelectedItem().toString(), 
-							(int)edadSpinner.getValue(), nombreText.getText());
+					String nombre = nombreText.getText();
+					String apellido = apellidoText.getText();
+					int salario =(int)salarioSpinner.getValue();
+					String horario =horarioCombo.getSelectedItem().toString();
+					String puesto =puestoCombo.getSelectedItem().toString();
+					int edad = (int)edadSpinner.getValue();
+					String telefono = telefonoText.getText();
+					String direccion = direccionText.getText();
+					String correo = correoText.getText();
+					controlador.agregarEmpleado(nombre, apellido, salario, puesto, horario, edad, telefono, direccion, correo);
 					ArrayList<Empleado> empleados = controlador.empleados(); 
 					Object[][] empleadosParaTabla= new Object[empleados.size()][];
 					int i =0;		
 					for (Empleado e: empleados){
-						empleadosParaTabla[i]= new Object[6];
+						empleadosParaTabla[i]= new Object[10];
 						empleadosParaTabla[i][0] =e.id_empleado;
-						empleadosParaTabla[i][1] =e.salario;
-						empleadosParaTabla[i][2] =e.horario;
-						empleadosParaTabla[i][3] =e.puesto;
-						empleadosParaTabla[i][4] =e.edad;
-						empleadosParaTabla[i][5] =e.nombre;
+						empleadosParaTabla[i][1] =e.nombre;
+						empleadosParaTabla[i][2] =e.apellido;
+						empleadosParaTabla[i][3] =e.salario;
+						empleadosParaTabla[i][4] =e.puesto;
+						empleadosParaTabla[i][5] =e.horario;
+						empleadosParaTabla[i][6] =e.edad;
+						empleadosParaTabla[i][7] =e.telefono;
+						empleadosParaTabla[i][8] =e.direccion;
+						empleadosParaTabla[i][9] =e.correo;
 						i++;
 					}
 					
 					table.setModel(new DefaultTableModel(
 						empleadosParaTabla,
 						new String[] {
-							"id Empleado", "Salario", "Horario", "puesto", "edad", "nombre"
+								"id Empleado", "nombre", "Apellido","Salario","Puesto", "Horario",  "edad", "telefono", "Direccion", "Correo"
 						}
 					));
 					JOptionPane.showMessageDialog(null, "Empleado agregado");
@@ -246,20 +256,20 @@ public class VentanaEmpleados extends JFrame {
 		
 		JLabel lblCorreo = new JLabel("Correo:");
 		GridBagConstraints gbc_lblCorreo = new GridBagConstraints();
-		gbc_lblCorreo.anchor = GridBagConstraints.EAST;
+		gbc_lblCorreo.anchor = GridBagConstraints.WEST;
 		gbc_lblCorreo.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCorreo.gridx = 0;
 		gbc_lblCorreo.gridy = 8;
 		panel.add(lblCorreo, gbc_lblCorreo);
 		
-		textField_3 = new JTextField();
-		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-		gbc_textField_3.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_3.gridx = 1;
-		gbc_textField_3.gridy = 8;
-		panel.add(textField_3, gbc_textField_3);
-		textField_3.setColumns(10);
+		correoText = new JTextField();
+		GridBagConstraints gbc_correoText = new GridBagConstraints();
+		gbc_correoText.insets = new Insets(0, 0, 5, 0);
+		gbc_correoText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_correoText.gridx = 1;
+		gbc_correoText.gridy = 8;
+		panel.add(correoText, gbc_correoText);
+		correoText.setColumns(10);
 		GridBagConstraints gbc_btnOk = new GridBagConstraints();
 		gbc_btnOk.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnOk.gridx = 1;
@@ -276,20 +286,24 @@ public class VentanaEmpleados extends JFrame {
 		Object[][] empleadosParaTabla= new Object[empleados.size()][];
 		int i =0;		
 		for (Empleado e: empleados){
-			empleadosParaTabla[i]= new Object[6];
+			empleadosParaTabla[i]= new Object[10];
 			empleadosParaTabla[i][0] =e.id_empleado;
-			empleadosParaTabla[i][1] =e.salario;
-			empleadosParaTabla[i][2] =e.horario;
-			empleadosParaTabla[i][3] =e.puesto;
-			empleadosParaTabla[i][4] =e.edad;
-			empleadosParaTabla[i][5] =e.nombre;
+			empleadosParaTabla[i][1] =e.nombre;
+			empleadosParaTabla[i][2] =e.apellido;
+			empleadosParaTabla[i][3] =e.salario;
+			empleadosParaTabla[i][4] =e.puesto;
+			empleadosParaTabla[i][5] =e.horario;
+			empleadosParaTabla[i][6] =e.edad;
+			empleadosParaTabla[i][7] =e.telefono;
+			empleadosParaTabla[i][8] =e.direccion;
+			empleadosParaTabla[i][9] =e.correo;
 			i++;
 		}
 		
 		table.setModel(new DefaultTableModel(
 			empleadosParaTabla,
 			new String[] {
-				"id Empleado", "Salario", "Horario", "puesto", "edad", "nombre"
+				"id Empleado", "nombre", "Apellido","Salario","Puesto", "Horario",  "edad", "telefono", "Direccion", "Correo"
 			}
 		));
 		panel_1.add(new JScrollPane(table) , BorderLayout.CENTER);
@@ -316,28 +330,32 @@ public class VentanaEmpleados extends JFrame {
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ArrayList<Empleado> productosUno = controlador.empleados();
-				ArrayList<Empleado> productosDos = new ArrayList<Empleado>();
+				ArrayList<Empleado> empleadosUno = controlador.empleados();
+				ArrayList<Empleado> empleadosDos = new ArrayList<Empleado>();
 				
-				for ( Empleado p: productosUno){
+				for ( Empleado p: empleadosUno){
 					if (p.id_empleado ==Integer.parseInt(buscarText.getText())){
-						productosDos.add(p);
+						empleadosDos.add(p);
 					}
 				}
-				Object[][] empleadosParaTablaBuscar = new Object[productosDos.size()][];
+				Object[][] empleadosParaTablaBuscar = new Object[empleadosDos.size()][];
 				int i=0;
-				for (Empleado p: productosDos){
-					empleadosParaTablaBuscar[i]= new Object[6];
+				for (Empleado p: empleadosDos){
+					empleadosParaTablaBuscar[i]= new Object[10];
 					empleadosParaTablaBuscar[i][0] =p.id_empleado;
-					empleadosParaTablaBuscar[i][1] =p.salario;
-					empleadosParaTablaBuscar[i][2] =p.horario;
-					empleadosParaTablaBuscar[i][3] =p.puesto;
-					empleadosParaTablaBuscar[i][4] =p.edad;
-					empleadosParaTablaBuscar[i][5] =p.nombre;
+					empleadosParaTablaBuscar[i][1] =p.nombre;
+					empleadosParaTablaBuscar[i][2] =p.apellido;
+					empleadosParaTablaBuscar[i][3] =p.salario;
+					empleadosParaTablaBuscar[i][4] =p.puesto;
+					empleadosParaTablaBuscar[i][5] =p.horario;
+					empleadosParaTablaBuscar[i][6] =p.edad;
+					empleadosParaTablaBuscar[i][7] =p.telefono;
+					empleadosParaTablaBuscar[i][8] =p.direccion;
+					empleadosParaTablaBuscar[i][9] =p.correo;
 					i++;
 				}
 				table.setModel(new DefaultTableModel(empleadosParaTablaBuscar,			new String[] {
-				"id Producto", "Precio", "id Proveedor", "nombre", "Descripcion"
+						"id Empleado", "nombre", "Apellido","Salario","Puesto", "Horario",  "edad", "telefono", "Direccion", "Correo"
 			}));
 				table.repaint();
 			}

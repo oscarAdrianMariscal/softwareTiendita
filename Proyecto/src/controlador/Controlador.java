@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import modelo.Categoria;
 import modelo.Conexion;
+import modelo.DetalleProducto;
 import modelo.Empleado;
 import modelo.Producto;
 import modelo.Proveedor;
@@ -63,8 +64,8 @@ public class Controlador {
 		return baseTienda.mostrarTablaTickets();
 	}
 	
-	public void ingresarTicket(int id_empleado, String informacion){
-		baseTienda.agregarTicket(id_empleado, informacion);
+	public void ingresarTicket(int id_empleado, String informacion, ArrayList<DetalleProducto> detalle){
+		baseTienda.agregarTicket(id_empleado, informacion, detalle);
 	}
 	
 

@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -348,30 +347,46 @@ public class Conexion {
 		}
 	}
 
-	public void agregarTicket(int id_empleado,String informacion) {
+	public void agregarTicket(int id_empleado,String fecha, ArrayList<DetalleProducto> detalle) {
 		try{
 			conexion();
-			String query = "insert into ticket (id_ticket,fecha,id_empleado, informacion)"
-			        + " values (?, ?, ?, ?)";
+			
+			Statement st = conex.createStatement();
+			ResultSet rs = st.executeQuery("SELECT count(idticket) as codigo FROM ticket");
+			int id=0;
+			
+			while (rs.next()) {
+			id = rs.getInt("codigo")+1;
+	    	}
+			
+			String query = "insert into ticket (idempleado,fecha,idticket)"
+			        + " values (?, ?, ?)";
 			PreparedStatement pst = conex.prepareStatement(query);
-			pst.setString(1, "0");
-			pst.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
-			pst.setString(3, String.valueOf(id_empleado));
-			pst.setString(4, informacion);
+			
+			pst.setInt(1, id_empleado);
+			pst.setString(2, fecha);
+			pst.setInt(3, id);
+
+			for (DetalleProducto d : detalle){
+				query = "insert into detalleticket (idempleado,idticket,cantidad)"
+				        + " values (?, ?, ?)";
+				pst = conex.prepareStatement(query);
+				
+				pst.setInt(1, d.idProducto);
+				pst.setInt(2, d.idTicket);
+				pst.setInt(3, d.cantidad);
+			}
+			
 			int consulta = pst.executeUpdate();
 			if (consulta>0){
-//				System.out.println("HEKLADLVJAS");
+				System.out.println("HEKLADLVJAS");
 			}
 			else{
 			}
-			
-			
 		}
 		catch(SQLException ex){
 			System.out.println("ERROR EN METODO insertar proveedor");
 		}
-		
-		
 	}
 	
 	public ArrayList<Ticket> mostrarTablaTickets() {

@@ -21,8 +21,10 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import modelo.Producto;
 import modelo.Proveedor;
 import controlador.Controlador;
+
 import javax.swing.JTabbedPane;
 
 public class VentanaProveedores extends JFrame {
@@ -38,7 +40,7 @@ public class VentanaProveedores extends JFrame {
 	private JTextField domiciolioText;
 	private JTextField telefonoText;
 	private JTextField correoText;
-	private JTextField textField;
+	private JTextField textEliminar;
 
 	/**
 	 * Create the frame.
@@ -99,7 +101,7 @@ public class VentanaProveedores extends JFrame {
 						proveedoresParaTabla[i][3] = p.correo;
 						i++;
 					}
-					table = new JTable();
+//					table = new JTable();
 					table.setModel(new DefaultTableModel(
 						proveedoresParaTabla,
 						new String[] {
@@ -107,7 +109,7 @@ public class VentanaProveedores extends JFrame {
 						}
 					));
 					table.repaint();
-					JOptionPane.showMessageDialog(null, "Proveedor agregado");
+					
 					
 				}
 				
@@ -175,7 +177,7 @@ public class VentanaProveedores extends JFrame {
 		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		contentPane.add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(new BorderLayout(0, 0));
-		ArrayList<Proveedor>proveedores =  controlador.proveedores();
+		final ArrayList<Proveedor>proveedores =  controlador.proveedores();
 		Object[][] proveedoresParaTabla= new Object[proveedores.size()][];
 		int i =0;
 		for (Proveedor p : proveedores){
@@ -219,10 +221,16 @@ public class VentanaProveedores extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				ArrayList<Proveedor> proveedoresUno= controlador.proveedores();
 				ArrayList<Proveedor> proveedoresDos= new ArrayList<Proveedor>();
-				for (Proveedor p : proveedoresUno){
-					if(p.id_proveedor==Integer.parseInt(buscarText.getText())){
-						proveedoresDos.add(p);
+				if (buscarText.getText().isEmpty()){
+					proveedoresDos=proveedores;
+				}
+				else{
+					for (Proveedor p : proveedoresUno){
+						if(p.nombre.equalsIgnoreCase(buscarText.getText())){
+							proveedoresDos.add(p);
+						}
 					}
+					
 				}
 				Object[][]proveedoresParaTablaBuscar=new Object[proveedoresDos.size()][];
 				int i=0;
@@ -269,19 +277,42 @@ public class VentanaProveedores extends JFrame {
 		gbc_lblNombre_1.gridy = 0;
 		panel_3.add(lblNombre_1, gbc_lblNombre_1);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 0);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 0;
-		panel_3.add(textField, gbc_textField);
-		textField.setColumns(10);
+		textEliminar = new JTextField();
+		GridBagConstraints gbc_textEliminar = new GridBagConstraints();
+		gbc_textEliminar.insets = new Insets(0, 0, 5, 0);
+		gbc_textEliminar.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textEliminar.gridx = 1;
+		gbc_textEliminar.gridy = 0;
+		panel_3.add(textEliminar, gbc_textEliminar);
+		textEliminar.setColumns(10);
 		
 		JButton button = new JButton("Ok");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				 
+				for (Proveedor p : proveedores){
+					if (p.nombre.equals(textEliminar.getText())){
+						controlador.eliminarProveedor(p.nombre);
+					}
+				}
+				ArrayList<Proveedor> proveedoresDos = controlador.proveedores();
+				Object[][]proveedoresParaTablaBuscar=new Object[proveedoresDos.size()][];
+				int i=0;
+				for (Proveedor p : proveedoresDos){
+					proveedoresParaTablaBuscar[i]= new Object[4];
+					proveedoresParaTablaBuscar[i][0]= p.nombre;
+					proveedoresParaTablaBuscar[i][1] = p.domicilio;
+					proveedoresParaTablaBuscar[i][2] = p.telefono;
+					proveedoresParaTablaBuscar[i][3] = p.correo;
+					
+					i++;
+				}
+				table.setModel(new DefaultTableModel(proveedoresParaTablaBuscar,new String[] {
+				"Nombre", "Domicilio", "Telefono", "Correo"
+			}));
+				table.repaint();
 				
+
 			}
 		});
 		GridBagConstraints gbc_button = new GridBagConstraints();

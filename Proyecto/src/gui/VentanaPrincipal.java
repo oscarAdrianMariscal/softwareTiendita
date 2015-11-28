@@ -144,6 +144,22 @@ public class VentanaPrincipal extends JFrame {
 		}
 		btnTickets.setIcon(new ImageIcon(iconTicket));
 		
+		JButton btnCorreo = new JButton("Correo");
+		btnCorreo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new VentanaCorreo(empleadoACargo.correo);
+			}
+		});
+		toolBar.add(btnCorreo);
+		
+		BufferedImage iconEmail = null;
+		try {
+			iconEmail = ImageIO.read(new File("Img/email.png"));
+		} catch (IOException e) {
+			
+		}
+		btnCorreo.setIcon(new ImageIcon(iconEmail));
+		
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(new BorderLayout(0, 0));

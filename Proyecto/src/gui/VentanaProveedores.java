@@ -291,7 +291,7 @@ public class VentanaProveedores extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				 
 				for (Proveedor p : proveedores){
-					if (p.nombre.equals(textEliminar.getText())){
+					if (p.nombre.equalsIgnoreCase(textEliminar.getText())){
 						controlador.eliminarProveedor(p.nombre);
 					}
 				}

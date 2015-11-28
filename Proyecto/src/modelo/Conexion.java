@@ -235,7 +235,7 @@ public class Conexion {
 	public void eliminarProveedor(String proveedor){
 		conexion();
 		int id=0;
-		String sql = "SELECT idproveedor From proveedor WHERE nombreproveedor ='"+validarNombre(proveedor)+"'";
+		String sql = "SELECT idproveedor From proveedor WHERE nombreproveedor ='"+proveedor+"'";
 		System.out.println(proveedor);
 		try{
 			conexion();
@@ -283,11 +283,13 @@ public class Conexion {
 			pst.setInt(1, id);
 			pst.setString(2, validarNombre(nombre));
 			pst.setString(3, validarNombre(apellido));
-			pst.setString(2, String.valueOf(salario));
-			pst.setString(3, horario);
-			pst.setString(4, puesto);
-			pst.setString(5, String.valueOf(edad));
-			pst.setString(6, nombre);
+			pst.setString(4, String.valueOf(salario));
+			pst.setString(5, puesto);
+			pst.setString(6, horario);
+			pst.setString(7, String.valueOf(edad));
+			pst.setString(8, telefono);
+			pst.setString(9, direccion);
+			pst.setString(10, correo);
 			int consulta = pst.executeUpdate();
 			if (consulta>0){
 				JOptionPane.showMessageDialog(null, "Empelado agregado");

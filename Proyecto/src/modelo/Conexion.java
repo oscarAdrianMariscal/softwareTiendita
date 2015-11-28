@@ -32,34 +32,22 @@ public class Conexion {
 		try{
 			conexion();
 			Statement st = conex.createStatement();
-			ResultSet rs = st.executeQuery("Select * FROM categoriaproducto");
+			ResultSet rs = st.executeQuery("Select * FROM categoriaproducto where categoria = '"+categoria+"'");
 			int idCategoria = 0, idProveedor = 0;
-			boolean band = false, band1 = false;
 			
 			while(rs.next())
 			{
-				if(categoria.equals(rs.getString("categoria")));
-				{
-					idCategoria = rs.getInt("idcategoria");
-					band=true;
-					break;
-				}	
+				idCategoria = rs.getInt("idcategoria");
 			}
 			
-			rs = st.executeQuery("Select * FROM proveedor");
+			Statement st2 = conex.createStatement();
+			ResultSet rs2 = st2.executeQuery("Select * FROM proveedor where nombreproveedor = '"+proveedor+"'");
 			
-			while(rs.next())
+			while(rs2.next())
 			{
-				if(proveedor.equals(rs.getString("nombreproveedor")));
-				{
-					idProveedor = rs.getInt("idproveedor");
-					band1=true;
-					break;
-				}	
+				idProveedor = rs2.getInt("idproveedor");
 			}
 			
-			if(band==true && band1==true)
-			{
 				String query = " insert into producto (idproducto,nombre,precio,idproveedor,idcategoria,cantidad)"
 				        + " values (?, ?, ?, ?, ?, ?)";
 				 
@@ -76,13 +64,6 @@ public class Conexion {
 				}
 				else{
 				}
-			}else
-			{
-				if(band==false)
-					JOptionPane.showMessageDialog(null, "No existe la categoria: "+categoria, "Error al Agregar", JOptionPane.ERROR_MESSAGE);
-				else if(band1==false)
-					JOptionPane.showMessageDialog(null, "No existe el proveedor: "+proveedor, "Error al Agregar", JOptionPane.ERROR_MESSAGE);
-			}
 		}
 		catch(SQLException ex){
 			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
@@ -120,7 +101,12 @@ public class Conexion {
 		String query = "DELETE from producto where idproducto = '"+id+"'";
 		try {
 			PreparedStatement pst = conex.prepareStatement(query);
-			pst.executeUpdate();
+			int consulta = pst.executeUpdate();
+			if (consulta>0){
+				JOptionPane.showMessageDialog(null, "Producto eliminado");
+			}
+			else{
+			}	
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);

@@ -236,6 +236,7 @@ public class Conexion {
 		conexion();
 		int id=0;
 		String sql = "SELECT idproveedor From proveedor WHERE nombreproveedor ='"+validarNombre(proveedor)+"'";
+		System.out.println(proveedor);
 		try{
 			conexion();
 			Statement st = conex.createStatement();
@@ -244,6 +245,7 @@ public class Conexion {
 				//Obtener los atributos.
 				id = rs.getInt("idproveedor");
 			}
+			System.out.println(id);
 			String query = "DELETE from proveedor where idproveedor = '"+id+"'";
 			try {
 				PreparedStatement pst = conex.prepareStatement(query);	
@@ -399,8 +401,9 @@ public class Conexion {
 	
 	public ArrayList<Ticket> mostrarTablaTickets() {
 		ArrayList<Ticket> tickets= new ArrayList<Ticket>();
-		String sql = "SELECT ticket.idticket, p.nombre, dt.cantidad, fecha, e.nombreemplead o, e.apellidoempleado from ticket "+
-					 "inner join empleado as e on e.idempleado = ticket.idempleado inner join detalleticket as dt on dt.idticket = ticket.idticket"+
+		String sql = "SELECT p.nombre, p.precio, fecha, e.nombreempleado, e.apellidoempleado from ticket"+
+					 "inner join empleado as e on e.idempleado = ticket.idempleado"+
+					 "inner join detalleticket as dt on dt.idticket = ticket.idticket"+
 					 "inner join producto as p on p.idproducto = dt.idproducto";
 		try{
 			conexion();
@@ -408,15 +411,13 @@ public class Conexion {
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()){
 				//Obtener los atributos.
-				
-				int id_ticket = Integer.parseInt(rs.getString("id_ticket"));
 				String producto = rs.getString("nombre");
+				float precio = rs.getFloat("precio");
 				String fecha     = rs.getString("fecha");
-				int id_empleado  = Integer.parseInt(rs.getString("id_empleado"));
-				String informacion  = rs.getString("informacion");
+				String empleado  = rs.getString("nombreempleado");
+				String apellido  = rs.getString("apellidoempleado");
 				
-				
-				Ticket temp = new Ticket(id_ticket,fecha,id_empleado);
+				Ticket temp = new Ticket(producto,precio,fecha,empleado,apellido);
 				tickets.add(temp);
 			}
 			

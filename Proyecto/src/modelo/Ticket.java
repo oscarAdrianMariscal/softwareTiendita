@@ -1,14 +1,18 @@
 package modelo;
 
 public class Ticket {
-	public int  id_ticket;
+	public String  producto;
+	public float precio;
 	public String fecha;
-	public int id_empleado;
-	public String informacion;
-	public Ticket(int id_ticket, String fecha, int id_empleado) {
+	public String empleado;
+	public String apellido;
+	
+	public Ticket(String producto, float precio, String fecha, String empleado, String apellido) {
 		super();
-		this.id_ticket = id_ticket;
+		this.producto = producto;
+		this.precio = precio;
 		this.fecha = fecha;
-		this.id_empleado = id_empleado;
+		this.empleado = empleado;
+		this.apellido = apellido;
 	}
 }

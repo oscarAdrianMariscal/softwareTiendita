@@ -8,12 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
-import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.JOptionPane;
-
-
-
 
 public class Conexion {
 	public Connection conex = null;
@@ -51,7 +46,6 @@ public class Conexion {
 				String categoria = rs.getString("categoria");
 				int cantidad = Integer.parseInt(rs.getString("cantidad"));
 				Producto temp = new Producto(id_producto,nombre,precio, proveedor,categoria,cantidad);
-				//System.out.println(temp);
 				productos.add(temp);
 			}
 			
@@ -61,27 +55,37 @@ public class Conexion {
 		return productos;
 	}
 	
-	public void insertarProducto(int codigo,String nombre,int precio,int id_proveedor,String id_categoria, int cantidad){
+	public void insertarProducto(int codigo,String nombre,float precio,String proveedor,String categoria, int cantidad){
 		try{
 			conexion();
 			Statement st = conex.createStatement();
 			ResultSet rs = st.executeQuery("Select * FROM categoriaproducto");
-			int categoria=0;
-			boolean band = false;
+			int idCategoria = 0, idProveedor = 0;
+			boolean band = false, band1 = false;
 			
 			while(rs.next())
 			{
-				if(id_categoria.equals(rs.getString("categoria")));
+				if(categoria.equals(rs.getString("categoria")));
 				{
-					System.out.println(id_categoria);
-					System.out.println(rs.getString("categoria"));
-					categoria = rs.getInt("idcategoria");
+					idCategoria = rs.getInt("idcategoria");
 					band=true;
 					break;
 				}	
 			}
 			
-			if(band==true)
+			rs = st.executeQuery("Select * FROM proveedor");
+			
+			while(rs.next())
+			{
+				if(proveedor.equals(rs.getString("nombreproveedor")));
+				{
+					idProveedor = rs.getInt("idproveedor");
+					band1=true;
+					break;
+				}	
+			}
+			
+			if(band==true && band1==true)
 			{
 				String query = " insert into producto (idproducto,nombre,precio,idproveedor,idcategoria,cantidad)"
 				        + " values (?, ?, ?, ?, ?, ?)";
@@ -90,8 +94,8 @@ public class Conexion {
 				pst.setInt(1, codigo);
 				pst.setString(2, nombre);
 				pst.setFloat(3, precio);
-				pst.setInt(4, id_proveedor);
-				pst.setInt(5, categoria);
+				pst.setInt(4, idProveedor);
+				pst.setInt(5, idCategoria);
 				pst.setInt(6, cantidad);
 				int consulta = pst.executeUpdate();
 				if (consulta>0){
@@ -101,24 +105,26 @@ public class Conexion {
 				}
 			}else
 			{
-				JOptionPane.showMessageDialog(null, "No existe la categoria: "+id_categoria, "Error al Agregar", JOptionPane.ERROR_MESSAGE);
+				if(band==false)
+					JOptionPane.showMessageDialog(null, "No existe la categoria: "+categoria, "Error al Agregar", JOptionPane.ERROR_MESSAGE);
+				else if(band1==false)
+					JOptionPane.showMessageDialog(null, "No existe el proveedor: "+proveedor, "Error al Agregar", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		catch(SQLException ex){
-			System.out.println("ERROR EN METODO insertar producto"+ex.getMessage());
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
 		}		
 	}
 	
 	public void eliminarProducto(int id){
 		conexion();
-		String query = "DELETE from producto where id_producto = '"+id+"'";
+		String query = "DELETE from producto where idproducto = '"+id+"'";
 		try {
 			PreparedStatement pst = conex.prepareStatement(query);
 			pst.executeUpdate();
 			
 		} catch (SQLException e) {
 		}
-		
 	}
 	
 	public void insertarProveedor(String nombre, String domicilio, String telefono, String correo){

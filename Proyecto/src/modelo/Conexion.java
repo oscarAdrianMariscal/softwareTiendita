@@ -395,15 +395,15 @@ public class Conexion {
 		}
 	}
 	catch(SQLException ex){
-		System.out.println(ex.getMessage());
+		JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
 	}
 	}
 	
 	public ArrayList<Ticket> mostrarTablaTickets() {
 		ArrayList<Ticket> tickets= new ArrayList<Ticket>();
-		String sql = "SELECT p.nombre, p.precio, fecha, e.nombreempleado, e.apellidoempleado from ticket"+
-					 "inner join empleado as e on e.idempleado = ticket.idempleado"+
-					 "inner join detalleticket as dt on dt.idticket = ticket.idticket"+
+		String sql = "SELECT p.nombre, p.precio, fecha, e.nombreempleado, e.apellidoempleado from ticket "+
+					 "inner join empleado as e on e.idempleado = ticket.idempleado "+
+					 "inner join detalleticket as dt on dt.idticket = ticket.idticket "+
 					 "inner join producto as p on p.idproducto = dt.idproducto";
 		try{
 			conexion();
@@ -423,6 +423,7 @@ public class Conexion {
 			
 		}
 		catch(SQLException ex){
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
 		}
 		return tickets;
 	}

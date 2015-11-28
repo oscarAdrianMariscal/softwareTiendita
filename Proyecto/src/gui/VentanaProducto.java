@@ -47,8 +47,8 @@ public class VentanaProducto extends JFrame {
 	private JSpinner precioSpinner;
 	private JSpinner spinnerCantidad;
 	private JTextField textCodigo;
-	private JComboBox comboBox;
-	private JComboBox comboCategoria;
+	final public JComboBox comboBox;
+	final public JComboBox comboCategoria;
 	private JTextField textCodigoEliminar;
 
 	/**
@@ -127,7 +127,7 @@ public class VentanaProducto extends JFrame {
 		
 		JLabel lblProveedor = new JLabel("Proveedor: ");
 		GridBagConstraints gbc_lblProveedor = new GridBagConstraints();
-		gbc_lblProveedor.anchor = GridBagConstraints.EAST;
+		gbc_lblProveedor.anchor = GridBagConstraints.WEST;
 		gbc_lblProveedor.insets = new Insets(0, 0, 5, 5);
 		gbc_lblProveedor.gridx = 0;
 		gbc_lblProveedor.gridy = 3;
@@ -143,7 +143,7 @@ public class VentanaProducto extends JFrame {
 		
 		JLabel lblCategoria = new JLabel("Categoria:");
 		GridBagConstraints gbc_lblCategoria = new GridBagConstraints();
-		gbc_lblCategoria.anchor = GridBagConstraints.EAST;
+		gbc_lblCategoria.anchor = GridBagConstraints.WEST;
 		gbc_lblCategoria.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCategoria.gridx = 0;
 		gbc_lblCategoria.gridy = 4;
@@ -162,8 +162,9 @@ public class VentanaProducto extends JFrame {
 			}
 			else{
 				float precio = (float)precioSpinner.getValue();
-				String categoria =comboCategoria.getSelectedItem().toString();
-				String proveedor = (String)comboBox.getSelectedItem().toString();
+				 
+				String categoria =comboCategoria.getItemAt(comboCategoria.getSelectedIndex()).toString();
+				String proveedor =comboBox.getSelectedItem().toString();
 				int cantidad = (int)spinnerCantidad.getValue();
 				
 				controlador.agregarProducto(Integer.parseInt(textCodigo.getText()), nombreText.getText(), precio,proveedor ,categoria , cantidad);
@@ -356,6 +357,27 @@ public class VentanaProducto extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				controlador.eliminarProducto(Integer.parseInt(textCodigoEliminar.getText()));
+				ArrayList<Producto> productosUno = controlador.productos();
+//				
+				Object[][] productosParaTablaBuscar = new Object[productosUno.size()][];
+				int i=0;
+				for (Producto p: productosUno){
+					productosParaTablaBuscar[i]= new Object[6];
+					productosParaTablaBuscar[i][0] =p.id_producto;
+					productosParaTablaBuscar[i][1] =p.nombre;
+					productosParaTablaBuscar[i][2] =p.precio;
+					productosParaTablaBuscar[i][3] =p.proveedor;
+					productosParaTablaBuscar[i][4] =p.categoria;
+					productosParaTablaBuscar[i][5] =p.cantidad;
+					
+					i++;
+				}
+				table.setModel(new DefaultTableModel(productosParaTablaBuscar,			new String[] {
+						"Código", "Nombre", "precio", "proveedor", "Categoria","Cantidad"
+			}));
+				table.repaint();
+				
+					    
 			}
 		});
 		GridBagConstraints gbc_button = new GridBagConstraints();

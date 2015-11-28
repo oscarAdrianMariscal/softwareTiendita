@@ -52,6 +52,14 @@ public class VentanaPrincipal extends JFrame {
 	 */
 	public VentanaPrincipal(final Controlador controlador) {
 		final ArrayList<Producto>productos = controlador.productos();
+		Image tienda = new ImageIcon(this.getClass().getResource("/tienda.png")).getImage();
+		BufferedImage myPicture = null;
+		try {
+			myPicture = ImageIO.read(new File("Img/logo.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		setTitle("Ventana Principal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
@@ -179,6 +187,11 @@ public class VentanaPrincipal extends JFrame {
 		panel_5.add(lblTotal);
 		
 		JButton btnCobrar = new JButton("Cobrar");
+		btnCobrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new VentanaCobro("40");
+			}
+		});
 		btnCobrar.setVerticalAlignment(SwingConstants.BOTTOM);
 		panel_5.add(btnCobrar);
 		
@@ -203,6 +216,8 @@ public class VentanaPrincipal extends JFrame {
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "Sucursal", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.add(panel_2, BorderLayout.NORTH);
+		JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+		panel_2.add(picLabel);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Empleado", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -231,7 +246,7 @@ public class VentanaPrincipal extends JFrame {
 			}
 		});
 		
-		Image tienda = new ImageIcon(this.getClass().getResource("/tienda.png")).getImage();
+
 	}
 
 }

@@ -84,16 +84,12 @@ public class VentanaPrincipal extends JFrame {
 			
 		}
 		btnProveedores.setIcon(new ImageIcon(iconProveedor) );
-		
-		JButton btnInventario = new JButton("Inventario");
-		toolBar.add(btnInventario);
 		BufferedImage inventarioProveedor = null;
 		try {
 			inventarioProveedor = ImageIO.read(new File("Img/inventario.png"));
 		} catch (IOException e) {
 			
 		}
-		btnInventario.setIcon(new ImageIcon(inventarioProveedor));
 		
 		JButton btnEmpleados = new JButton("Empleados");
 		toolBar.add(btnEmpleados);
@@ -114,9 +110,6 @@ public class VentanaPrincipal extends JFrame {
 			
 		}
 		btnTickets.setIcon(new ImageIcon(iconTicket));
-		
-		JButton btnCaja = new JButton("Caja");
-		toolBar.add(btnCaja);
 		
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.CENTER);
@@ -174,11 +167,6 @@ public class VentanaPrincipal extends JFrame {
 		
 		Component horizontalStrut = Box.createHorizontalStrut(50);
 		panel_3.add(horizontalStrut);
-		btnCaja.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				new VentanaCaja(controlador);
-			}
-		});
 		btnTickets.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new VentanaTicket(controlador);
@@ -187,11 +175,6 @@ public class VentanaPrincipal extends JFrame {
 		btnEmpleados.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new VentanaEmpleados(controlador);
-			}
-		});
-		btnInventario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				new VentanaInventario(controlador);
 			}
 		});
 		btnProveedores.addActionListener(new ActionListener() {

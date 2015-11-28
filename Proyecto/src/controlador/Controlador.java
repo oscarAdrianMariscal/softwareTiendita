@@ -57,16 +57,13 @@ public class Controlador {
 	
 	public void eliminarEmpleado(int id){
 		baseTienda.eliminarEmpleado(id);
-		
 	}
 	
 	public ArrayList<Ticket> tickets (){
 		return baseTienda.mostrarTablaTickets();
 	}
 	
-	public void ingresarTicket(int id_empleado, String informacion, ArrayList<DetalleProducto> detalle){
-		baseTienda.agregarTicket(id_empleado, informacion, detalle);
+	public void ingresarTicket(int id_empleado, String fecha, ArrayList<DetalleProducto> detalle){
+		baseTienda.agregarTicket(id_empleado, fecha, detalle);
 	}
-	
-
 }

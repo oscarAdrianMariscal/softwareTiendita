@@ -51,7 +51,7 @@ public class VentanaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaPrincipal(final Controlador controlador) {
-		final ArrayList<Producto>productos = controlador.productos();
+		final ArrayList<Producto>productos = new ArrayList<Producto>();
 		Image tienda = new ImageIcon(this.getClass().getResource("/tienda.png")).getImage();
 		BufferedImage myPicture = null;
 		try {
@@ -152,16 +152,55 @@ public class VentanaPrincipal extends JFrame {
 		
 		 textField = new JTextField();
 //		final ArrayList<Producto> productos = controlador.productos();
+//		 ArrayList<Producto> productos = new ArrayList<Producto> ();
+		Object [][]productosParaTabla = new Object [0][];
+		final JTable tablaDeProductos = new JTable(); 
+		tablaDeProductos.setModel(new DefaultTableModel(
+				productosParaTabla,
+				new String[] {
+					"Código", "Nombre", "precio", "proveedor", "Categoria"
+				}
+			));
+		
+		panel_1.add(new JScrollPane(tablaDeProductos), BorderLayout.CENTER);
+		//Oscar 
+		final ArrayList<Producto> totalidadDeProducots = controlador.productos();
+		final JLabel label = new JLabel("");
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER){
-					for (Producto p : productos){
+					for (Producto p : totalidadDeProducots){
 						if (p.nombre.equals(textField.getText())){
+							textField.setText("");
+							productos.add(p);
 							
+							Object[][] productosParaTablaBuscar = new Object[productos.size()][];
+							int i=0;
+							for (Producto pro: productos){
+								productosParaTablaBuscar[i]= new Object[6];
+								productosParaTablaBuscar[i][0] =pro.id_producto;
+								productosParaTablaBuscar[i][1] =pro.nombre;
+								productosParaTablaBuscar[i][2] =pro.precio;
+								productosParaTablaBuscar[i][3] =pro.proveedor;
+								productosParaTablaBuscar[i][4] =pro.categoria;
+								productosParaTablaBuscar[i][5] =pro.cantidad;
+								
+								i++;
+							}
+							tablaDeProductos.setModel(new DefaultTableModel(productosParaTablaBuscar,			new String[] {
+									"Código", "Nombre", "precio", "proveedor", "Categoria","Cantidad"
+						}));
+							tablaDeProductos.repaint();
+								    
 						}
+						
+						int precioTotal=0;
+						for (Producto prod : productos){
+							precioTotal+=prod.precio;
+						}
+						label.setText(String.valueOf(precioTotal));
 					}
-					textField.setText("");
 
 				}
 			}
@@ -189,23 +228,20 @@ public class VentanaPrincipal extends JFrame {
 		JButton btnCobrar = new JButton("Cobrar");
 		btnCobrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new VentanaCobro("40");
+				int precioTotal=0;
+				for (Producto p : productos){
+					precioTotal+=p.precio;
+				}
+				new VentanaCobro(String.valueOf(precioTotal));
 			}
 		});
+		
+		panel_5.add(label);
+		
+		Component horizontalStrut_1 = Box.createHorizontalStrut(40);
+		panel_5.add(horizontalStrut_1);
 		btnCobrar.setVerticalAlignment(SwingConstants.BOTTOM);
 		panel_5.add(btnCobrar);
-		
-		Object [][]productosParaTabla = new Object [0][];
-		JTable tablaDeProductos = new JTable(); 
-		tablaDeProductos.setModel(new DefaultTableModel(
-				productosParaTabla,
-				new String[] {
-					"Código", "Nombre", "precio", "proveedor", "Categoria"
-				}
-			));
-		
-//		panel_1.add(, BorderLayout.CENTER);
-		panel_1.add(new JScrollPane(tablaDeProductos), BorderLayout.CENTER);
 		
 		
 		JPanel panel = new JPanel();

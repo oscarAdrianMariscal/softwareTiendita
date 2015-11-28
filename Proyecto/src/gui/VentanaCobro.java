@@ -97,6 +97,11 @@ public class VentanaCobro extends JFrame {
 		contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
 		JButton btnFinalizar = new JButton("Finalizar.");
+		btnFinalizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
 
 		GridBagConstraints gbc_btnFinalizar = new GridBagConstraints();
 		gbc_btnFinalizar.gridx = 2;
